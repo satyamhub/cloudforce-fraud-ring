@@ -5,165 +5,266 @@
   <title>Cloudforce Fraud Ring</title>
   <style>
     :root {
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      color: #e2e8f0;
-      background-color: #020617;
+      font-family: 'Sora', 'Inter', system-ui, sans-serif;
+      color: #f8fafc;
+      background-color: #010409;
     }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
-      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.3), transparent 40%),
-                  #020617;
+      background: radial-gradient(circle at top right, rgba(96,165,250,0.2), transparent 40%),
+                  radial-gradient(circle at 20% 20%, rgba(16,185,129,0.35), transparent 35%),
+                  #010409;
+      padding: 40px 16px;
       display: flex;
       justify-content: center;
-      padding: 40px 20px;
     }
     main {
-      width: min(960px, 100%);
-      display: grid;
+      width: min(1100px, 100%);
+      display: flex;
+      flex-direction: column;
       gap: 32px;
     }
-    header {
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: 0 20px 60px rgba(2, 6, 23, 0.8);
+    header.hero {
+      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(2,6,23,0.85));
+      border-radius: 32px;
+      padding: 40px;
+      border: 1px solid rgba(148,163,184,0.2);
+      box-shadow: 0 30px 80px rgba(2,6,23,0.8);
     }
-    header h1 {
+    header.hero h1 {
       margin: 0;
-      font-size: 2.8rem;
+      font-size: clamp(2.4rem, 5vw, 3rem);
+      letter-spacing: -0.02em;
     }
-    header p {
-      color: #94a3b8;
-      max-width: 640px;
-      line-height: 1.6;
+    header.hero p {
       margin-top: 12px;
-    }
-    .panel-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-    .panel {
-      background: rgba(15, 23, 42, 0.7);
-      border-radius: 16px;
-      border: 1px solid rgba(15, 118, 110, 0.6);
-      padding: 20px;
-      min-height: 180px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .panel h2 {
-      margin: 0;
-      font-size: 1.1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #22d3ee;
-    }
-    .panel p {
-      margin: 0;
-      line-height: 1.5;
       color: #cbd5f5;
-      flex: 1;
+      max-width: 720px;
+      line-height: 1.6;
     }
-    .panel code {
-      font-size: 0.9rem;
-      background: rgba(15, 118, 110, 0.1);
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-    .run-card {
-      background: rgba(8, 13, 24, 0.9);
-      border-radius: 18px;
-      border: 1px solid rgba(59, 130, 246, 0.5);
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .input-row {
+    .badge-row {
       display: flex;
       gap: 12px;
+      margin-top: 24px;
       flex-wrap: wrap;
     }
-    label {
+    .badge {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(56,189,248,0.5);
+      font-size: 0.85rem;
+      color: #38bdf8;
+      background: rgba(15,118,110,0.12);
+    }
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: rgba(15,23,42,0.9);
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid rgba(99,102,241,0.3);
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card h2 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #a5b4fc;
+    }
+    .card p {
+      margin: 0;
+      color: #cbd5f5;
+      line-height: 1.5;
+      flex: 1;
+    }
+    .card strong {
+      color: #fcd34d;
+    }
+    .run-card {
+      background: rgba(8,15,25,0.95);
+      border-radius: 24px;
+      border: 1px solid rgba(248,250,252,0.15);
+      padding: 32px;
+      box-shadow: inset 0 0 30px rgba(59,130,246,0.1);
+      display: grid;
+      gap: 16px;
+    }
+    .run-card .input-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .run-card label {
       font-size: 0.9rem;
       color: #94a3b8;
     }
-    input {
-      border-radius: 8px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: #020617;
-      color: #e2e8f0;
-      padding: 6px 10px;
-      min-width: 110px;
+    .run-card input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.4);
+      background: rgba(2,6,23,0.6);
+      color: #f8fafc;
     }
-    button {
-      cursor: pointer;
-      border: none;
-      border-radius: 12px;
-      padding: 10px 18px;
+    .run-card button {
+      justify-self: start;
+      padding: 10px 24px;
       background: linear-gradient(135deg, #38bdf8, #6366f1);
+      border-radius: 16px;
+      border: none;
       color: #020617;
       font-weight: 700;
-      transition: transform 0.2s ease;
+      box-shadow: 0 10px 20px rgba(15,118,110,0.4);
     }
-    button:hover { transform: translateY(-1px); }
+    #status {
+      min-height: 22px;
+      color: #fbbf24;
+      font-size: 0.95rem;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 12px;
-      background: rgba(15, 23, 42, 0.7);
-      border-radius: 12px;
+      background: rgba(2,6,23,0.6);
+      border-radius: 16px;
       overflow: hidden;
     }
     th, td {
-      padding: 10px;
+      padding: 10px 12px;
       text-align: left;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-      font-size: 0.95rem;
-    }
-    th { background: rgba(15, 23, 42, 0.9); }
-    #status {
       font-size: 0.9rem;
-      color: #fbbf24;
-      min-height: 24px;
+      border-bottom: 1px solid rgba(148,163,184,0.2);
     }
-    @media (max-width: 600px) {
-      header h1 { font-size: 2rem; }
-      .input-row { flex-direction: column; }
+    th {
+      background: rgba(15,23,42,0.85);
+      color: #e0e7ff;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    aside.demo-card {
+      background: linear-gradient(145deg, rgba(15,23,42,0.95), rgba(8,15,25,0.85));
+      border-radius: 24px;
+      border: 1px solid rgba(59,130,246,0.4);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 30px 80px rgba(2,6,23,0.6);
+    }
+    .demo-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .demo-row > div {
+      flex: 1 1 200px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid rgba(15,118,110,0.4);
+    }
+    .demo-row strong {
+      color: #34d399;
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .demo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+    .demo-actions a {
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: #10b981;
+      color: #010409;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .demo-actions span {
+      color: #cbd5f5;
+      font-size: 0.9rem;
+    }
+    footer {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      padding-bottom: 40px;
+    }
+    @media (max-width: 650px) {
+      body { padding: 24px 16px; }
+      header.hero, .run-card, aside.demo-card { padding: 24px; }
     }
   </style>
 </head>
 <body>
   <main>
-    <header>
-      <h1>Cloudforce Fraud Ring Demo</h1>
-      <p>Detect dense UPI/device/IP sharing cliques in seconds via TigerGraph REST++. This page is styled for your round‑2 presentation and documents how your proxy + viewer work together to prove the concept.</p>
+    <header class="hero">
+      <h1>Cloudforce Fraud Ring</h1>
+      <p>Detect dense UPI/device/IP sharing networks in real time. This “RingDetect” demo hits TigerGraph REST++ through a secure proxy so judges can see the signal without exposing secrets.</p>
+      <div class="badge-row">
+        <span class="badge">TigerGraph REST++</span>
+        <span class="badge">Fraud dataset</span>
+        <span class="badge">Proxy + Viewer</span>
+      </div>
     </header>
 
-    <section class="panel-grid">
-      <div class="panel">
+    <section class="content-grid">
+      <article class="card">
         <h2>Why it matters</h2>
-        <p>Shared phones, devices, or IPs are high‑confidence signals for mule rings. RingDetect returns the accounts tied to the same objects plus built‑in risk scoring so analysts can triage faster.</p>
-      </div>
-      <div class="panel">
+        <p>Shared devices, phones, or IPs hint at coordinated mule activity. Without relationships, rules flood analysts with false positives. RingDetect links the graph, surfaces the influencers, and lets you rerun with new thresholds instantly.</p>
+      </article>
+      <article class="card">
         <h2>How it works</h2>
-        <p>Requests go through a lightweight proxy (Flask + Gunicorn) that injects a TigerGraph auth token and proxies to your Savanna REST++ instance, keeping your secrets server‑side.</p>
-      </div>
-      <div class="panel">
-        <h2>Next steps</h2>
-        <p>Add your own CSVs, adjust ring thresholds, or surface suspicious merchants by chaining this query with MuleRanking in Grafana or a dashboard.</p>
-      </div>
+        <p>Your proxy (Flask + Gunicorn) injects the Savanna bearer token, handles CORS, then forwards `/api/ringDetect` to `https://tg-.../restpp`. The viewer only talks to the proxy, so credentials stay server-side.</p>
+      </article>
+      <article class="card">
+        <h2>Impact</h2>
+        <p>Investigators can focus on accounts tied to high-risk merchants or shared devices. RingDetect explains why each account is suspicious (risk_score, shared_count, degrees), making it easy to tell the story during demos or in production.</p>
+      </article>
+    </section>
+
+    <section class="content-grid">
+      <article class="card" style="border-color: rgba(251,191,36,0.4);">
+        <h2>Problem</h2>
+        <p>Legacy systems treat transactions in isolation. Coordinated rings slip through when shared identifiers are ignored or too costly to compute over wide datasets.</p>
+      </article>
+      <article class="card" style="border-color: rgba(59,130,246,0.4);">
+        <h2>Solution</h2>
+        <p>Fraud Graph links accounts to devices, merchants, phones, and IPs. Queries like RingDetect and MuleRanking expose the clusters and rank suspicious merchants so an analyst can validate the ring in minutes.</p>
+      </article>
+      <article class="card" style="border-color: rgba(16,185,129,0.4);">
+        <h2>Business Outcome</h2>
+        <p>Less manual triage, faster investigations, and auditable insights for compliance teams. Prove the concept with the live viewer, then deploy the same pipeline in Savanna for production alerts.</p>
+      </article>
     </section>
 
     <div class="run-card">
       <div class="input-row">
-        <label>Source Account <input id="src" value="acct_0000" /></label>
-        <label>min_shared <input id="min_shared" type="number" value="2" min="1" /></label>
-        <label>top_k <input id="top_k" type="number" value="10" min="1" /></label>
+        <label>
+          Source Account
+          <input id="src" value="acct_0000" />
+        </label>
+        <label>
+          min_shared
+          <input id="min_shared" type="number" value="2" min="1" />
+        </label>
+        <label>
+          top_k
+          <input id="top_k" type="number" value="10" min="1" />
+        </label>
         <button onclick="runQuery()">Run ringDetect</button>
       </div>
       <div id="status"></div>
@@ -173,9 +274,32 @@
         </thead>
         <tbody></tbody>
       </table>
+      <p style="color:#94a3b8; font-size:0.85rem;">
+        Once the proxy is deployed, set `BASE` to `https://your-proxy-host/api/ringDetect`. The proxy handles the token + REST++ forwarding.
+      </p>
     </div>
 
-    <p style="color:#94a3b8; font-size:0.85rem;">Set `BASE` below to `https://your-proxy-host/api/ringDetect` once the proxy is deployed (Render/Heroku/Railway). The proxy then forwards to TigerGraph REST++ and adds the Bearer token for you.</p>
+    <aside class="demo-card">
+      <h2>Demo UI & Flow</h2>
+      <div class="demo-row">
+        <div>
+          <strong>Proxy</strong>
+          <p>Runs Flask + Gunicorn, injects `TG_TOKEN`, handles headers, and securely talks to `restpp/query/Fraud/ringDetect`.</p>
+        </div>
+        <div>
+          <strong>Viewer</strong>
+          <p>Hosted via GitHub Pages (`/docs/index.html` or `/docs/ringdetect-view.html`), it hits the proxy so judges only trigger your secure graph.</p>
+        </div>
+      </div>
+      <div class="demo-actions">
+        <a href="ringdetect-view.html" target="_blank">Open runnable viewer</a>
+        <span>Tip: locally run `TG_TOKEN=<token> python proxy.py` + `python -m http.server 8088`.</span>
+      </div>
+    </aside>
+
+    <footer>
+      Demo powered by TigerGraph Savanna &mdash; local proxy keeps your token safe while the viewer stays responsive.
+    </footer>
   </main>
 
   <script>
@@ -185,7 +309,6 @@
       const src = document.getElementById('src').value.trim();
       const min_shared = document.getElementById('min_shared').value;
       const top_k = document.getElementById('top_k').value;
-      const url = `${BASE}?src=${encodeURIComponent(src)}&min_shared=${min_shared}&top_k=${top_k}`;
       const status = document.getElementById('status');
       const table = document.getElementById('table');
       const tbody = table.querySelector('tbody');
@@ -193,11 +316,11 @@
       table.style.display = 'none';
       tbody.innerHTML = '';
       try {
-        const resp = await fetch(url);
+        const resp = await fetch(`${BASE}?src=${encodeURIComponent(src)}&min_shared=${min_shared}&top_k=${top_k}`);
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         const data = await resp.json();
         const rows = data.results?.[0]?.ordered || [];
-        if (!rows.length) { status.textContent = 'No results — adjust the threshold or source'; return; }
+        if (!rows.length) { status.textContent = 'No results — try a different account or lower min_shared'; return; }
         rows.forEach(r => {
           const attr = r.attributes;
           const tr = document.createElement('tr');

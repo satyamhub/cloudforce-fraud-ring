@@ -63,7 +63,7 @@ def forward(path):
 
 @app.route("/api/ringDetect")
 def ring_detect():
-    return forward(f"/query/{GRAPH}/ringDetect")
+    return forward(f"/query/{TG_GRAPH}/ringDetect")
 
 
 if __name__ == "__main__":
