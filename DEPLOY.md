@@ -41,6 +41,8 @@ python3 -m http.server 8088   # open http://localhost:8088/docs/ringdetect-view.
    - URL: `https://<your-username>.github.io/cloudforce-fraud-ring/ringdetect-view.html`
    - In `docs/ringdetect-view.html` set `const BASE = "https://<your-proxy>/api/ringDetect";`
 
+> **Token status:** Authorization requests to `/restpp/requesttoken` have been returning HTTP 400 for now. Keep the proxy running locally (it uses cloud REST++ via `TG_BASE` with no token) and document in the submission form that a Savanna token is pending; the same request above will work instantly once the secret is accepted.
+
 ## TigerGraph reload (if needed)
 ```bash
 # inside container tg as tigergraph user
