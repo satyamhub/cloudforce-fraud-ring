@@ -1,0 +1,48 @@
+// Minimal queries: ring detection and mule ranking
+USE GRAPH Fraud
+DROP QUERY ringDetect
+DROP QUERY muleRanking
+
+CREATE QUERY ringDetect(STRING src, INT min_shared = 2, INT top_k = 20) FOR GRAPH Fraud SYNTAX v1 {
+  SumAccum<INT> @shared_count, @deg_out, @deg_in;
+
+  start = SELECT s FROM Account:s WHERE s.pid == src;
+
+  devs = SELECT d FROM start:s -(UsesDevice:e)-> Device:d;
+  tmp1 = SELECT a2 FROM devs:d -(UsesDevice:e2)-> Account:a2
+    WHERE a2.pid != src
+    ACCUM a2.@shared_count += 1;
+
+  phs = SELECT p FROM start:s -(HasPhone:e)-> Phone:p;
+  tmp2 = SELECT a2 FROM phs:p -(HasPhone:e2)-> Account:a2
+    WHERE a2.pid != src
+    ACCUM a2.@shared_count += 1;
+
+  ips = SELECT ip FROM start:s -(AtIP:e)-> IPAddr:ip;
+  tmp3 = SELECT a2 FROM ips:ip -(AtIP:e2)-> Account:a2
+    WHERE a2.pid != src
+    ACCUM a2.@shared_count += 1;
+
+  deg_init = SELECT a FROM Account:a ACCUM a.@deg_out = 0, a.@deg_in = 0;
+  deg_calc = SELECT a FROM Account:a -(Transfer:e)-> Account:b ACCUM a.@deg_out += 1, b.@deg_in += 1;
+
+  suspects = SELECT a FROM Account:a WHERE a.@shared_count >= min_shared;
+
+  ordered = SELECT s FROM suspects:s ORDER BY s.@shared_count DESC, s.@deg_out DESC, s.@deg_in DESC LIMIT top_k;
+  PRINT ordered;
+}
+
+CREATE QUERY muleRanking(INT top_k = 10) FOR GRAPH Fraud SYNTAX v1 {
+  SumAccum<INT> @dev_count, @ip_count, @score;
+
+  results = SELECT a FROM Account:a
+    ACCUM a.@dev_count = a.outdegree("UsesDevice"),
+          a.@ip_count = a.outdegree("AtIP"),
+          a.@score = (a.@dev_count + a.@ip_count);
+
+  top = SELECT r FROM results:r WHERE r.@dev_count > 1 OR r.@ip_count > 1 ORDER BY r.@score DESC LIMIT top_k;
+  PRINT top;
+}
+
+INSTALL QUERY ringDetect
+INSTALL QUERY muleRanking
