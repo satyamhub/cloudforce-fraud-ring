@@ -1,3 +1,0 @@
-// Runs the loading job with the bundled CSV
-USE GRAPH Demo
-RUN LOADING JOB load_people USING f1="/home/tigergraph/quickstart-demo/people.csv"
