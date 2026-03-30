@@ -25,8 +25,17 @@ python3 -m http.server 8088   # open http://localhost:8088/docs/ringdetect-view.
 ## Remote deploy (proxy + Pages)
 1) Deploy proxy (Render/Heroku/Railway):
    - `cd fraud-ring-demo/submission`
-   - Add env vars: `TG_BASE`, `TG_USER`, `TG_PASSWORD`, `TG_GRAPH` (defaults are in file).
+   - Add env vars to match Savanna:
+     - `TG_BASE=https://tg-3b54a662-9c06-49cb-ad2a-25939dfb441c.tg-2635877100.i.tgcloud.io/restpp`
+     - `TG_GRAPH=Fraud`
+     - `TG_TOKEN=<paste token returned by requesttoken>` (preferred) or `TG_USER`/`TG_PASSWORD`
    - Procfile (already implied by gunicorn): `web: gunicorn proxy:app`
+   - Token request example (use `secret` from Admin Portal):
+     ```bash
+     curl -k -X POST "https://<host>/requesttoken" \
+       -H "Content-Type: application/json" \
+       -d '{"secret":"<value>","graph":"Fraud","lifetime":3600}'
+     ```
 2) Static site:
    - GitHub Pages → source: `main` / `docs`.
    - URL: `https://<your-username>.github.io/cloudforce-fraud-ring/ringdetect-view.html`

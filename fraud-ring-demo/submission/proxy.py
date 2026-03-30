@@ -9,13 +9,18 @@ Then point the HTML viewer at: http://localhost:8089/api/ringDetect
 """
 
 from flask import Flask, request, Response
+import os
 import requests
 import time
 
-TG_BASE = "http://localhost:9000"  # REST++ base
-USER = "tigergraph"
-PWD = "Hackathon123"
-GRAPH = "Fraud"
+TG_BASE = os.getenv(
+    "TG_BASE",
+    "https://tg-3b54a662-9c06-49cb-ad2a-25939dfb441c.tg-2635877100.i.tgcloud.io/restpp",
+)
+TG_GRAPH = os.getenv("TG_GRAPH", "Fraud")
+TG_USER = os.getenv("TG_USER", "tigergraph")
+TG_PASSWORD = os.getenv("TG_PASSWORD", "Hackathon123")
+TG_TOKEN_OVERRIDE = os.getenv("TG_TOKEN")
 
 app = Flask(__name__)
 
@@ -23,11 +28,18 @@ token_cache = {"token": None, "exp": 0}
 
 
 def get_token():
+    if TG_TOKEN_OVERRIDE:
+        return TG_TOKEN_OVERRIDE
     now = time.time()
     if token_cache["token"] and now < token_cache["exp"] - 30:
         return token_cache["token"]
     url = f"{TG_BASE}/requesttoken"
-    r = requests.post(url, data={"graph": GRAPH, "username": USER, "password": PWD}, timeout=10)
+    payload = {
+        "graph": TG_GRAPH,
+        "username": TG_USER,
+        "password": TG_PASSWORD,
+    }
+    r = requests.post(url, json=payload, timeout=10)
     r.raise_for_status()
     data = r.json()
     token_cache["token"] = data["token"]

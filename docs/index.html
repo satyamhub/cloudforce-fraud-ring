@@ -2,45 +2,184 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>RingDetect Viewer</title>
+  <title>Cloudforce Fraud Ring</title>
   <style>
-    body { font-family: sans-serif; margin: 20px; background: #0f172a; color: #e2e8f0; }
-    h1 { margin-bottom: 0; }
-    .input-row { margin: 12px 0; }
-    label { margin-right: 8px; }
-    button { padding: 6px 12px; background: #38bdf8; border: none; color: #0f172a; font-weight: 600; cursor: pointer; border-radius: 6px; }
-    table { border-collapse: collapse; margin-top: 14px; width: 100%; }
-    th, td { border: 1px solid #334155; padding: 8px; text-align: left; }
-    th { background: #1e293b; }
-    tr:nth-child(even) { background: #0f172a; }
-    tr:nth-child(odd) { background: #111827; }
-    #status { margin-top: 10px; color: #fbbf24; }
-    .small { font-size: 12px; color: #94a3b8; }
+    :root {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      color: #e2e8f0;
+      background-color: #020617;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.3), transparent 40%),
+                  #020617;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    main {
+      width: min(960px, 100%);
+      display: grid;
+      gap: 32px;
+    }
+    header {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 20px 60px rgba(2, 6, 23, 0.8);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.8rem;
+    }
+    header p {
+      color: #94a3b8;
+      max-width: 640px;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .panel {
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 16px;
+      border: 1px solid rgba(15, 118, 110, 0.6);
+      padding: 20px;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .panel h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #22d3ee;
+    }
+    .panel p {
+      margin: 0;
+      line-height: 1.5;
+      color: #cbd5f5;
+      flex: 1;
+    }
+    .panel code {
+      font-size: 0.9rem;
+      background: rgba(15, 118, 110, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .run-card {
+      background: rgba(8, 13, 24, 0.9);
+      border-radius: 18px;
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .input-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    label {
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+    input {
+      border-radius: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: #020617;
+      color: #e2e8f0;
+      padding: 6px 10px;
+      min-width: 110px;
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 18px;
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      color: #020617;
+      font-weight: 700;
+      transition: transform 0.2s ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+      font-size: 0.95rem;
+    }
+    th { background: rgba(15, 23, 42, 0.9); }
+    #status {
+      font-size: 0.9rem;
+      color: #fbbf24;
+      min-height: 24px;
+    }
+    @media (max-width: 600px) {
+      header h1 { font-size: 2rem; }
+      .input-row { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
-  <h1>Fraud Ring Early Warning — ringDetect</h1>
-  <div class="input-row">
-    <label>Source Account:</label>
-    <input id="src" value="acct_0000" />
-    <label>min_shared:</label>
-    <input id="min_shared" type="number" value="2" min="1" />
-    <label>top_k:</label>
-    <input id="top_k" type="number" value="10" min="1" />
-    <button onclick="runQuery()">Run</button>
-  </div>
-  <div class="small">REST endpoint (via proxy): set BASE below to your deployed proxy.</div>
-  <div id="status"></div>
-  <table id="table" style="display:none;">
-    <thead>
-      <tr><th>Account</th><th>flagged</th><th>risk_score</th><th>shared_count</th><th>deg_out</th><th>deg_in</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <main>
+    <header>
+      <h1>Cloudforce Fraud Ring Demo</h1>
+      <p>Detect dense UPI/device/IP sharing cliques in seconds via TigerGraph REST++. This page is styled for your round‑2 presentation and documents how your proxy + viewer work together to prove the concept.</p>
+    </header>
+
+    <section class="panel-grid">
+      <div class="panel">
+        <h2>Why it matters</h2>
+        <p>Shared phones, devices, or IPs are high‑confidence signals for mule rings. RingDetect returns the accounts tied to the same objects plus built‑in risk scoring so analysts can triage faster.</p>
+      </div>
+      <div class="panel">
+        <h2>How it works</h2>
+        <p>Requests go through a lightweight proxy (Flask + Gunicorn) that injects a TigerGraph auth token and proxies to your Savanna REST++ instance, keeping your secrets server‑side.</p>
+      </div>
+      <div class="panel">
+        <h2>Next steps</h2>
+        <p>Add your own CSVs, adjust ring thresholds, or surface suspicious merchants by chaining this query with MuleRanking in Grafana or a dashboard.</p>
+      </div>
+    </section>
+
+    <div class="run-card">
+      <div class="input-row">
+        <label>Source Account <input id="src" value="acct_0000" /></label>
+        <label>min_shared <input id="min_shared" type="number" value="2" min="1" /></label>
+        <label>top_k <input id="top_k" type="number" value="10" min="1" /></label>
+        <button onclick="runQuery()">Run ringDetect</button>
+      </div>
+      <div id="status"></div>
+      <table id="table" style="display:none;">
+        <thead>
+          <tr><th>Account</th><th>Flagged</th><th>Risk</th><th>Shared</th><th>Out</th><th>In</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p style="color:#94a3b8; font-size:0.85rem;">Set `BASE` below to `https://your-proxy-host/api/ringDetect` once the proxy is deployed (Render/Heroku/Railway). The proxy then forwards to TigerGraph REST++ and adds the Bearer token for you.</p>
+  </main>
 
   <script>
-    // CHANGE THIS to your deployed proxy URL:
-    const BASE = "https://your-proxy-host/api/ringDetect";
+    const BASE = "http://localhost:8089/api/ringDetect"; // swap for deployed proxy
 
     async function runQuery() {
       const src = document.getElementById('src').value.trim();
@@ -58,7 +197,7 @@
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         const data = await resp.json();
         const rows = data.results?.[0]?.ordered || [];
-        if (!rows.length) { status.textContent = 'No results'; return; }
+        if (!rows.length) { status.textContent = 'No results — adjust the threshold or source'; return; }
         rows.forEach(r => {
           const attr = r.attributes;
           const tr = document.createElement('tr');
@@ -68,11 +207,9 @@
         table.style.display = 'table';
         status.textContent = `Fetched ${rows.length} suspects for ${src}`;
       } catch (e) {
-        status.textContent = 'Error: ' + e.message + ' (Check proxy URL and TigerGraph)';
+        status.textContent = 'Error: ' + e.message + ' (verify proxy URL, token, and TigerGraph)';
       }
     }
   </script>
-
-  <div class="small" style="margin-top:12px;">Deploy tip: GitHub Pages can serve this file from /docs. Set BASE to your proxy URL (Render/Heroku/Railway) that forwards to TigerGraph REST++.</div>
 </body>
 </html>

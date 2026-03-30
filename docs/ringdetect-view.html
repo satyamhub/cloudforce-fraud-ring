@@ -39,8 +39,8 @@
   </table>
 
   <script>
-    // CHANGE THIS to your deployed proxy URL:
-    const BASE = "https://your-proxy-host/api/ringDetect";
+    // Replace BASE with your deployed proxy (or keep localhost for local testing).
+    const BASE = "http://localhost:8089/api/ringDetect";
 
     async function runQuery() {
       const src = document.getElementById('src').value.trim();
@@ -68,11 +68,11 @@
         table.style.display = 'table';
         status.textContent = `Fetched ${rows.length} suspects for ${src}`;
       } catch (e) {
-        status.textContent = 'Error: ' + e.message + ' (Check proxy URL and TigerGraph)';
+        status.textContent = 'Error: ' + e.message + ' (Check proxy URL, token, and TigerGraph)';
       }
     }
   </script>
 
-  <div class="small" style="margin-top:12px;">Deploy tip: GitHub Pages can serve this file from /docs. Set BASE to your proxy URL (Render/Heroku/Railway) that forwards to TigerGraph REST++.</div>
+  <div class="small" style="margin-top:12px;">Deploy tip: GitHub Pages can serve this file from /docs. Set BASE to your proxy URL (Render/Heroku/Railway) that forwards to TigerGraph REST++ and include `/api/ringDetect`.</div>
 </body>
 </html>
