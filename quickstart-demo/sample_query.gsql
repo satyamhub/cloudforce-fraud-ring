@@ -1,0 +1,21 @@
+// Installs a 2-hop neighborhood query
+USE GRAPH Demo
+
+CREATE QUERY twoHop(VERTEX<Person> src) FOR GRAPH Demo SYNTAX v1 {
+  SetAccum<VERTEX> @@friends;
+  SetAccum<VERTEX> @@friendsOfFriends;
+
+  start = {src};
+  Level1 = SELECT t FROM start:s -(Knows:e)-> Person:t
+           ACCUM @@friends += t;
+
+  Level2 = SELECT t2 FROM Level1:s -(Knows:e)-> Person:t2
+           WHERE t2 != src
+           ACCUM @@friendsOfFriends += t2;
+
+  PRINT src;
+  PRINT @@friends AS direct_friends;
+  PRINT @@friendsOfFriends AS friends_of_friends;
+}
+
+INSTALL QUERY twoHop
