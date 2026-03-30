@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RingDetect Viewer</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; background: #0f172a; color: #e2e8f0; }
+    h1 { margin-bottom: 0; }
+    .input-row { margin: 12px 0; }
+    label { margin-right: 8px; }
+    button { padding: 6px 12px; background: #38bdf8; border: none; color: #0f172a; font-weight: 600; cursor: pointer; border-radius: 6px; }
+    table { border-collapse: collapse; margin-top: 14px; width: 100%; }
+    th, td { border: 1px solid #334155; padding: 8px; text-align: left; }
+    th { background: #1e293b; }
+    tr:nth-child(even) { background: #0f172a; }
+    tr:nth-child(odd) { background: #111827; }
+    #status { margin-top: 10px; color: #fbbf24; }
+    .small { font-size: 12px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <h1>Fraud Ring Early Warning — ringDetect</h1>
+  <div class="input-row">
+    <label>Source Account:</label>
+    <input id="src" value="acct_0000" />
+    <label>min_shared:</label>
+    <input id="min_shared" type="number" value="2" min="1" />
+    <label>top_k:</label>
+    <input id="top_k" type="number" value="10" min="1" />
+    <button onclick="runQuery()">Run</button>
+  </div>
+  <div class="small">REST endpoint (via proxy): set BASE below to your deployed proxy.</div>
+  <div id="status"></div>
+  <table id="table" style="display:none;">
+    <thead>
+      <tr><th>Account</th><th>flagged</th><th>risk_score</th><th>shared_count</th><th>deg_out</th><th>deg_in</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // CHANGE THIS to your deployed proxy URL:
+    const BASE = "https://your-proxy-host/api/ringDetect";
+
+    async function runQuery() {
+      const src = document.getElementById('src').value.trim();
+      const min_shared = document.getElementById('min_shared').value;
+      const top_k = document.getElementById('top_k').value;
+      const url = `${BASE}?src=${encodeURIComponent(src)}&min_shared=${min_shared}&top_k=${top_k}`;
+      const status = document.getElementById('status');
+      const table = document.getElementById('table');
+      const tbody = table.querySelector('tbody');
+      status.textContent = 'Running query...';
+      table.style.display = 'none';
+      tbody.innerHTML = '';
+      try {
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const data = await resp.json();
+        const rows = data.results?.[0]?.ordered || [];
+        if (!rows.length) { status.textContent = 'No results'; return; }
+        rows.forEach(r => {
+          const attr = r.attributes;
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${attr.pid}</td><td>${attr.flagged}</td><td>${attr.risk_score}</td><td>${attr['@shared_count']}</td><td>${attr['@deg_out']}</td><td>${attr['@deg_in']}</td>`;
+          tbody.appendChild(tr);
+        });
+        table.style.display = 'table';
+        status.textContent = `Fetched ${rows.length} suspects for ${src}`;
+      } catch (e) {
+        status.textContent = 'Error: ' + e.message + ' (Check proxy URL and TigerGraph)';
+      }
+    }
+  </script>
+
+  <div class="small" style="margin-top:12px;">Deploy tip: GitHub Pages can serve this file from /docs. Set BASE to your proxy URL (Render/Heroku/Railway) that forwards to TigerGraph REST++.</div>
+</body>
+</html>

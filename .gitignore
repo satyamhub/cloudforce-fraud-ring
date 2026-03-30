@@ -5,6 +5,7 @@ __pycache__/
 
 # Local data outputs
 fraud-ring-demo/data/*.csv
+submission-kit/
 
 # OCI image artifacts (do not commit large docker blobs)
 blobs/
