@@ -33,17 +33,58 @@
       padding: 40px;
       border: 1px solid rgba(148,163,184,0.2);
       box-shadow: 0 30px 80px rgba(2,6,23,0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -80px auto;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,189,248,0.14), transparent 70%);
+      pointer-events: none;
+    }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .brand-row img {
+      width: 180px;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,0.35));
+    }
+    .brand-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .brand-copy span {
+      color: #94a3b8;
+      font-size: 0.86rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
     header.hero h1 {
       margin: 0;
       font-size: clamp(2.4rem, 5vw, 3rem);
       letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
     }
     header.hero p {
       margin-top: 12px;
       color: #cbd5f5;
       max-width: 720px;
       line-height: 1.6;
+      position: relative;
+      z-index: 1;
     }
     .hero-actions {
       display: flex;
@@ -234,6 +275,12 @@
 <body>
   <main>
     <header class="hero">
+      <div class="brand-row">
+        <img src="../assets/tigergraph-logo.png" alt="TigerGraph logo" />
+        <div class="brand-copy">
+          <span>Devacation 2026 Powered by TigerGraph</span>
+        </div>
+      </div>
       <div class="badge-row" style="margin-top:0;">
         <span class="badge">Devacation 2026</span>
         <span class="badge">Powered by TigerGraph</span>
