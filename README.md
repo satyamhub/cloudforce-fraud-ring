@@ -2,15 +2,39 @@
 
 TigerGraph-powered fraud-ring early warning demo for Devacation 2026.
 
+Live preview: https://satyamhub.github.io/cloudforce-fraud-ring/
+
 We built a graph-native fraud detector that turns one suspicious account into a full investigation path in seconds.
-Instead of looking at transactions one by one, the graph reveals shared devices, phones, IPs, merchants, and money-flow links that fraud rings use to hide in plain sight.
+The graph reveals shared devices, phones, IPs, merchants, and money-flow links that fraud rings use to hide in plain sight.
+
+> One suspicious account. One graph query. The full ring.
+
+- Event: Devacation 2026 Powered by TigerGraph
+- Team: CLOUDFORCE
+- Focus: Fraud ring early warning and explainable graph analytics
+
+## Quick Links
+
+- Preview: https://satyamhub.github.io/cloudforce-fraud-ring/
+- Deck PDF: `CLOUDFORCE_Fraud_Ring_Early_Warning.pdf`
+- Deploy guide: `DEPLOY.md`
+- Interactive viewer: `docs/ringdetect-view.html`
+
+## About
+
+Cloudforce Fraud Ring is a TigerGraph-powered fraud detection demo that surfaces coordinated mule rings by tracing shared devices, phones, IPs, merchants, and money-flow paths.
+The system starts from one suspicious account, expands the connected network, and explains why each suspect looks risky so investigators can move fast.
 
 ## What It Does
 
-- `ringDetect(src, min_shared, top_k)` starts from one account and expands the suspicious ring.
-- `muleRanking(top_k)` ranks the most suspicious accounts using shared activity and network signals.
+- `ringDetect(src, min_shared, top_k)` expands from one account to the connected suspicious ring.
+- `muleRanking(top_k)` ranks suspicious accounts using shared activity and network signals.
 - A secure Flask proxy keeps TigerGraph secrets off the browser.
 - A polished HTML viewer makes the demo judge-friendly and easy to understand.
+
+## Architecture
+
+`Data -> TigerGraph graph + queries -> secure proxy -> HTML viewer -> judge-friendly demo`
 
 ## Why This Stands Out
 
@@ -21,9 +45,15 @@ Instead of looking at transactions one by one, the graph reveals shared devices,
 
 ## Live Demo
 
+- Preview: https://satyamhub.github.io/cloudforce-fraud-ring/
 - Presentation page: `docs/index.html`
 - Interactive viewer: `docs/ringdetect-view.html`
 - Deploy guide: `DEPLOY.md`
+
+## Screenshots
+
+- Presentation UI: `docs/index.html`
+- Interactive ringDetect viewer: `docs/ringdetect-view.html`
 
 ## Project Structure
 
@@ -53,7 +83,7 @@ Instead of looking at transactions one by one, the graph reveals shared devices,
 
 ## Why It Matters
 
-Fraud rings are hard to detect when each transaction is viewed alone. Graph analytics makes the connection pattern visible, which helps investigators explain why an account is suspicious and prioritize the riskiest cases first.
+Fraud rings are hard to detect when each transaction is viewed alone. Graph analytics makes the connection pattern visible, helping investigators explain why an account is suspicious and prioritize the riskiest cases first.
 
 ## Presentation Hook
 
