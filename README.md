@@ -2,6 +2,8 @@
 
 TigerGraph-powered fraud-ring early warning demo for Devacation 2026.
 
+![TigerGraph logo](assets/tigergraph-logo.png)
+
 Live preview: https://satyamhub.github.io/cloudforce-fraud-ring/
 
 We built a graph-native fraud detector that turns one suspicious account into a full investigation path in seconds.
