@@ -25,7 +25,7 @@ The graph reveals shared devices, phones, IPs, merchants, and money-flow links t
 ## About
 
 Cloudforce Fraud Ring is a TigerGraph-powered fraud detection demo that surfaces coordinated mule rings by tracing shared devices, phones, IPs, merchants, and money-flow paths.
-The system starts from one suspicious account, expands the connected network, and explains why each suspect looks risky so investigators can move fast.
+It starts from one suspicious account, expands the connected network, and explains why each suspect looks risky so investigators can move fast.
 
 ## What It Does
 
