@@ -308,7 +308,7 @@
       </article>
       <article class="card">
         <h2>How it works</h2>
-        <p>Your proxy (Flask + Gunicorn) injects the Savanna bearer token, handles CORS, then forwards `/api/ringDetect` to `https://tg-.../restpp`. The viewer only talks to the proxy, so credentials stay server-side.</p>
+        <p>Your proxy (Flask + Gunicorn) handles CORS and forwards `/api/ringDetect` to TigerGraph. In local mode it talks to `http://localhost:9000`; in cloud mode you can add a bearer token server-side if you deploy the proxy remotely.</p>
       </article>
       <article class="card">
         <h2>Impact</h2>
@@ -327,7 +327,7 @@
       </article>
       <article class="card" style="border-color: rgba(16,185,129,0.4);">
         <h2>Business Outcome</h2>
-        <p>Less manual triage, faster investigations, and auditable insights for compliance teams. Prove the concept with the live viewer, then deploy the same pipeline in Savanna for production alerts.</p>
+        <p>Less manual triage, faster investigations, and auditable insights for compliance teams. Prove the concept with the live viewer locally first, then swap in a cloud proxy only if you want to deploy it remotely.</p>
       </article>
     </section>
 
@@ -355,7 +355,7 @@
         <tbody></tbody>
       </table>
       <p style="color:#94a3b8; font-size:0.85rem;">
-        Once the proxy is deployed, set `BASE` to `https://your-proxy-host/api/ringDetect`. The proxy handles the token + REST++ forwarding.
+        Keep `BASE` on localhost for the demo. If you later deploy the proxy, change it to `https://your-proxy-host/api/ringDetect`.
       </p>
     </div>
 
@@ -364,7 +364,7 @@
       <div class="demo-row">
         <div>
           <strong>Proxy</strong>
-          <p>Runs Flask + Gunicorn, injects `TG_TOKEN`, handles headers, and securely talks to `restpp/query/Fraud/ringDetect`.</p>
+        <p>Runs Flask + Gunicorn, handles headers, and securely talks to `restpp/query/Fraud/ringDetect` locally or through a cloud proxy if you choose to deploy one.</p>
         </div>
         <div>
           <strong>Viewer</strong>
@@ -373,17 +373,19 @@
       </div>
       <div class="demo-actions">
         <a href="ringdetect-view.html" target="_blank">Open runnable viewer</a>
-        <span>Tip: locally run `TG_TOKEN=<token> python proxy.py` + `python -m http.server 8088`.</span>
+        <span>Tip: locally run `python proxy.py` + `python -m http.server 8088`.</span>
       </div>
     </aside>
 
     <footer>
-      Demo powered by TigerGraph Savanna. The proxy keeps your token safe while the viewer stays responsive.
+      Demo powered by TigerGraph. The local proxy keeps the viewer responsive and lets judges run the graph demo without cloud auth friction.
     </footer>
   </main>
 
   <script>
-    const BASE = "http://localhost:8089/api/ringDetect"; // swap for deployed proxy
+    const BASE = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+      ? "http://localhost:8089/api/ringDetect"
+      : "/api/ringDetect";
 
     async function runQuery() {
       const src = document.getElementById('src').value.trim();
@@ -410,7 +412,7 @@
         table.style.display = 'table';
         status.textContent = `Fetched ${rows.length} suspects for ${src}`;
       } catch (e) {
-        status.textContent = 'Error: ' + e.message + ' (verify proxy URL, token, and TigerGraph)';
+        status.textContent = 'Error: ' + e.message + ' (verify proxy URL and TigerGraph)';
       }
     }
   </script>

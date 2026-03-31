@@ -3,6 +3,10 @@
 ## Repo name (suggested)
 `cloudforce-fraud-ring`
 
+## Public preview
+- `https://cloudforce.vercel.app/`
+- Public API: `https://cloudforce.vercel.app/api/ringDetect`
+
 ## What’s inside
 - `fraud-ring-demo/gsql/` — schema, loading job, queries.
 - `fraud-ring-demo/data/` — synthetic CSVs + generator script.
@@ -12,7 +16,7 @@
 ## Local quickstart (TigerGraph already loaded)
 ```bash
 docker start tg
-# run proxy (adds CORS + token auth):
+# run proxy against the local TigerGraph instance:
 cd fraud-ring-demo/submission
 python3 -m venv venv
 ./venv/bin/pip install -r requirements.txt
@@ -21,6 +25,8 @@ python3 -m venv venv
 cd ..
 python3 -m http.server 8088   # open http://localhost:8088/docs/ringdetect-view.html
 ```
+The local proxy defaults to `TG_BASE=http://localhost:9000`, so no Savanna token is needed for the demo once the TigerGraph container is running.
+The public Vercel preview serves the same pages and uses the bundled CSV-backed `/api/ringDetect` endpoint.
 
 ## Remote deploy (proxy + Pages)
 1) Deploy proxy (Render/Heroku/Railway):
@@ -28,7 +34,7 @@ python3 -m http.server 8088   # open http://localhost:8088/docs/ringdetect-view.
    - Add env vars to match Savanna:
      - `TG_BASE=https://tg-3b54a662-9c06-49cb-ad2a-25939dfb441c.tg-2635877100.i.tgcloud.io/restpp`
      - `TG_GRAPH=Fraud`
-     - `TG_TOKEN=<paste token returned by requesttoken>` (preferred) or `TG_USER`/`TG_PASSWORD`
+     - `TG_TOKEN=<paste token returned by requesttoken>` if you are using the cloud workspace
    - Procfile (already implied by gunicorn): `web: gunicorn proxy:app`
    - Token request example (use `secret` from Admin Portal):
      ```bash
@@ -41,7 +47,7 @@ python3 -m http.server 8088   # open http://localhost:8088/docs/ringdetect-view.
    - URL: `https://<your-username>.github.io/cloudforce-fraud-ring/ringdetect-view.html`
    - In `docs/ringdetect-view.html` set `const BASE = "https://<your-proxy>/api/ringDetect";`
 
-> **Token status:** Authorization requests to `/restpp/requesttoken` have been returning HTTP 400 for now. Keep the proxy running locally (it uses cloud REST++ via `TG_BASE` with no token) and document in the submission form that a Savanna token is pending; the same request above will work instantly once the secret is accepted.
+> **Token status:** The local demo path does not require a Savanna token anymore. If you deploy the proxy to the cloud, add `TG_TOKEN` there; otherwise the default local setup uses `http://localhost:9000` and works without auth.
 
 ## TigerGraph reload (if needed)
 ```bash

@@ -4,7 +4,8 @@ TigerGraph-powered fraud-ring early warning demo for Devacation 2026.
 
 ![TigerGraph logo](assets/tigergraph-logo.png)
 
-Live preview: https://satyamhub.github.io/cloudforce-fraud-ring/
+Live preview: https://cloudforce.vercel.app/
+Static preview: https://satyamhub.github.io/cloudforce-fraud-ring/
 
 We built a graph-native fraud detector that turns one suspicious account into a full investigation path in seconds.
 The graph reveals shared devices, phones, IPs, merchants, and money-flow links that fraud rings use to hide in plain sight.
@@ -17,7 +18,8 @@ The graph reveals shared devices, phones, IPs, merchants, and money-flow links t
 
 ## Quick Links
 
-- Preview: https://satyamhub.github.io/cloudforce-fraud-ring/
+- Live preview: https://cloudforce.vercel.app/
+- Static preview: https://satyamhub.github.io/cloudforce-fraud-ring/
 - Deck PDF: `CLOUDFORCE_Fraud_Ring_Early_Warning.pdf`
 - Deploy guide: `DEPLOY.md`
 - Interactive viewer: `docs/ringdetect-view.html`
@@ -47,7 +49,8 @@ It starts from one suspicious account, expands the connected network, and explai
 
 ## Live Demo
 
-- Preview: https://satyamhub.github.io/cloudforce-fraud-ring/
+- Live preview: https://cloudforce.vercel.app/
+- Static preview: https://satyamhub.github.io/cloudforce-fraud-ring/
 - Presentation page: `docs/index.html`
 - Interactive viewer: `docs/ringdetect-view.html`
 - Deploy guide: `DEPLOY.md`

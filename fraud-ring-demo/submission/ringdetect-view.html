@@ -229,8 +229,10 @@
   </main>
 
   <script>
-    // Replace BASE with your deployed proxy (or keep localhost for local testing).
-    const BASE = "http://localhost:8089/api/ringDetect";
+    // Keep localhost for local testing; swap to your deployed proxy only if needed.
+    const BASE = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+      ? "http://localhost:8089/api/ringDetect"
+      : "/api/ringDetect";
 
     async function runQuery() {
       const src = document.getElementById('src').value.trim();
@@ -258,7 +260,7 @@
         table.style.display = 'table';
         status.textContent = `Fetched ${rows.length} suspects for ${src}`;
       } catch (e) {
-        status.textContent = 'Error: ' + e.message + ' (Check proxy URL, token, and TigerGraph)';
+        status.textContent = 'Error: ' + e.message + ' (Check proxy URL and TigerGraph)';
       }
     }
   </script>
