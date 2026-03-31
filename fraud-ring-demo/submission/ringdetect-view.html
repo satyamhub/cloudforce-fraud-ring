@@ -2,44 +2,219 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RingDetect Viewer</title>
   <style>
-    body { font-family: sans-serif; margin: 20px; background: #0f172a; color: #e2e8f0; }
-    h1 { margin-bottom: 0; }
-    .input-row { margin: 12px 0; }
-    label { margin-right: 8px; }
-    button { padding: 6px 12px; background: #38bdf8; border: none; color: #0f172a; font-weight: 600; cursor: pointer; border-radius: 6px; }
-    table { border-collapse: collapse; margin-top: 14px; width: 100%; }
-    th, td { border: 1px solid #334155; padding: 8px; text-align: left; }
-    th { background: #1e293b; }
-    tr:nth-child(even) { background: #0f172a; }
-    tr:nth-child(odd) { background: #111827; }
-    #status { margin-top: 10px; color: #fbbf24; }
-    .small { font-size: 12px; color: #94a3b8; }
+    :root {
+      color-scheme: dark;
+      font-family: 'Sora', 'Inter', system-ui, sans-serif;
+      color: #e2e8f0;
+      background: #020617;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(56,189,248,0.14), transparent 35%),
+        radial-gradient(circle at 20% 20%, rgba(16,185,129,0.18), transparent 32%),
+        #020617;
+      padding: 24px 16px;
+      display: flex;
+      justify-content: center;
+    }
+    main {
+      width: min(1100px, 100%);
+    }
+    .shell {
+      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(2,6,23,0.88));
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 30px 80px rgba(2,6,23,0.7);
+    }
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(15,118,110,0.16);
+      color: #38bdf8;
+      border: 1px solid rgba(56,189,248,0.35);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+    }
+    .topline a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-size: 0.92rem;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      letter-spacing: -0.02em;
+    }
+    .sub {
+      margin: 10px 0 0;
+      max-width: 780px;
+      color: #cbd5f5;
+      line-height: 1.6;
+    }
+    .input-row {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      align-items: end;
+    }
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+    .field input {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.4);
+      background: rgba(2,6,23,0.58);
+      color: #f8fafc;
+    }
+    button {
+      padding: 12px 16px;
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      border: none;
+      color: #020617;
+      font-weight: 800;
+      cursor: pointer;
+      border-radius: 14px;
+      min-height: 46px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .stat {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: 18px;
+      padding: 14px;
+    }
+    .stat span {
+      display: block;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .stat strong {
+      font-size: 1.08rem;
+      color: #f8fafc;
+    }
+    #status {
+      margin-top: 14px;
+      min-height: 22px;
+      color: #fbbf24;
+    }
+    table {
+      border-collapse: collapse;
+      margin-top: 16px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 18px;
+      background: rgba(2,6,23,0.6);
+    }
+    th, td {
+      border-bottom: 1px solid rgba(148,163,184,0.18);
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+    th {
+      background: rgba(15,23,42,0.9);
+      color: #e0e7ff;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.78rem;
+    }
+    tr:nth-child(even) { background: rgba(15,23,42,0.6); }
+    .small {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+    .small code {
+      color: #e2e8f0;
+    }
+    @media (max-width: 640px) {
+      body { padding: 16px; }
+      .shell { padding: 20px; }
+    }
   </style>
 </head>
 <body>
-  <h1>Fraud Ring Early Warning — ringDetect</h1>
-  <div class="input-row">
-    <label>Source Account:</label>
-    <input id="src" value="acct_0000" />
-    <label>min_shared:</label>
-    <input id="min_shared" type="number" value="2" min="1" />
-    <label>top_k:</label>
-    <input id="top_k" type="number" value="10" min="1" />
-    <button onclick="runQuery()">Run</button>
-  </div>
-  <div class="small">REST endpoint (via proxy): http://localhost:8089/api/ringDetect</div>
-  <div id="status"></div>
-  <table id="table" style="display:none;">
-    <thead>
-      <tr><th>Account</th><th>flagged</th><th>risk_score</th><th>shared_count</th><th>deg_out</th><th>deg_in</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <main>
+    <section class="shell">
+      <div class="topline">
+        <div class="eyebrow">Devacation 2026 Powered by TigerGraph</div>
+        <a href="../../docs/index.html">Back to presentation</a>
+      </div>
+      <h1>Fraud Ring Early Warning</h1>
+      <p class="sub">Start from one suspicious account and expose connected suspects through shared devices, IPs, phones, and merchant activity. The proxy keeps TigerGraph secrets off the browser while the graph explains the pattern.</p>
+
+      <div class="input-row">
+        <div class="field">
+          <label for="src">Source Account</label>
+          <input id="src" value="acct_0000" />
+        </div>
+        <div class="field">
+          <label for="min_shared">min_shared</label>
+          <input id="min_shared" type="number" value="2" min="1" />
+        </div>
+        <div class="field">
+          <label for="top_k">top_k</label>
+          <input id="top_k" type="number" value="10" min="1" />
+        </div>
+        <button onclick="runQuery()">Run ringDetect</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span>REST endpoint</span><strong>via proxy</strong></div>
+        <div class="stat"><span>Query</span><strong>ringDetect</strong></div>
+        <div class="stat"><span>View mode</span><strong>Explainable</strong></div>
+      </div>
+
+      <div id="status"></div>
+      <table id="table" style="display:none;">
+        <thead>
+          <tr><th>Account</th><th>flagged</th><th>risk_score</th><th>shared_count</th><th>deg_out</th><th>deg_in</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="small">
+        Local proxy: <code>http://localhost:8089/api/ringDetect</code><br>
+        Deploy tip: set <code>BASE</code> to your deployed proxy URL when you host this page.
+      </div>
+    </section>
+  </main>
 
   <script>
-    const BASE = "http://localhost:8089/api/ringDetect"; // proxy that adds CORS + auth
+    // Replace BASE with your deployed proxy (or keep localhost for local testing).
+    const BASE = "http://localhost:8089/api/ringDetect";
 
     async function runQuery() {
       const src = document.getElementById('src').value.trim();
@@ -67,11 +242,9 @@
         table.style.display = 'table';
         status.textContent = `Fetched ${rows.length} suspects for ${src}`;
       } catch (e) {
-        status.textContent = 'Error: ' + e.message + ' (Check proxy on localhost:8089 and TG REST++)';
+        status.textContent = 'Error: ' + e.message + ' (Check proxy URL, token, and TigerGraph)';
       }
     }
   </script>
-
-  <div class="small" style="margin-top:12px;">Run proxy: `cd fraud-ring-demo/submission && python3 -m pip install flask requests && python3 proxy.py`.<br>Serve this file: `python3 -m http.server 8088` then open http://localhost:8088/ringdetect-view.html</div>
 </body>
 </html>

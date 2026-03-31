@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cloudforce Fraud Ring</title>
   <style>
     :root {
@@ -43,6 +44,27 @@
       color: #cbd5f5;
       max-width: 720px;
       line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .hero-actions a {
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 10px 16px;
+      font-weight: 700;
+    }
+    .hero-actions .primary {
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      color: #020617;
+    }
+    .hero-actions .secondary {
+      border: 1px solid rgba(148,163,184,0.35);
+      color: #e2e8f0;
+      background: rgba(15,23,42,0.45);
     }
     .badge-row {
       display: flex;
@@ -212,8 +234,17 @@
 <body>
   <main>
     <header class="hero">
+      <div class="badge-row" style="margin-top:0;">
+        <span class="badge">Devacation 2026</span>
+        <span class="badge">Powered by TigerGraph</span>
+        <span class="badge">CLOUDFORCE</span>
+      </div>
       <h1>Cloudforce Fraud Ring</h1>
       <p>Detect dense UPI/device/IP sharing networks in real time. This “RingDetect” demo hits TigerGraph REST++ through a secure proxy so judges can see the signal without exposing secrets.</p>
+      <div class="hero-actions">
+        <a class="primary" href="ringdetect-view.html" target="_blank">Open live viewer</a>
+        <a class="secondary" href="../DEPLOY.md" target="_blank">View deploy guide</a>
+      </div>
       <div class="badge-row">
         <span class="badge">TigerGraph REST++</span>
         <span class="badge">Fraud dataset</span>
@@ -298,7 +329,7 @@
     </aside>
 
     <footer>
-      Demo powered by TigerGraph Savanna &mdash; local proxy keeps your token safe while the viewer stays responsive.
+      Demo powered by TigerGraph Savanna. The proxy keeps your token safe while the viewer stays responsive.
     </footer>
   </main>
 
