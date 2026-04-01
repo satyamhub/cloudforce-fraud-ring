@@ -215,6 +215,99 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
+    .graph-panel {
+      display: grid;
+      gap: 16px;
+      padding: 24px;
+      border-radius: 24px;
+      border: 1px solid rgba(96,165,250,0.25);
+      background: linear-gradient(180deg, rgba(8,15,25,0.96), rgba(4,9,18,0.95));
+      box-shadow: inset 0 0 40px rgba(96,165,250,0.08);
+    }
+    .graph-panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .graph-panel-head h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: 0.02em;
+      color: #f8fafc;
+      text-transform: none;
+    }
+    .graph-panel-head p {
+      margin: 8px 0 0;
+      color: #cbd5e1;
+      line-height: 1.5;
+      max-width: 60ch;
+    }
+    .graph-legend {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .graph-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.25);
+      background: rgba(255,255,255,0.04);
+      color: #dbeafe;
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+    }
+    .graph-legend i {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .graph-legend .center { background: #60a5fa; }
+    .graph-legend .suspect { background: #f97316; }
+    .graph-legend .flagged { background: #fb7185; }
+    #graph {
+      width: 100%;
+      min-height: 330px;
+      display: block;
+      overflow: visible;
+    }
+    .graph-link {
+      stroke: rgba(148,163,184,0.52);
+      stroke-width: 2.5;
+    }
+    .graph-link.dim {
+      stroke-dasharray: 8 8;
+      stroke: rgba(148,163,184,0.34);
+    }
+    .graph-link-label {
+      fill: #cbd5e1;
+      font-size: 12px;
+      font-weight: 600;
+      text-anchor: middle;
+    }
+    .graph-node-label {
+      fill: #f8fafc;
+      font-size: 14px;
+      font-weight: 700;
+      text-anchor: middle;
+    }
+    .graph-node-meta {
+      fill: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      text-anchor: middle;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .graph-note {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
     aside.demo-card {
       background: linear-gradient(145deg, rgba(15,23,42,0.95), rgba(8,15,25,0.85));
       border-radius: 24px;
@@ -354,6 +447,21 @@
         </thead>
         <tbody></tbody>
       </table>
+      <div class="graph-panel">
+        <div class="graph-panel-head">
+          <div>
+            <h2>Source-to-ring graph</h2>
+            <p>The source account sits in the center. Suspects are arranged around it, with link labels showing how many shared signals connect them back to the ring.</p>
+          </div>
+          <div class="graph-legend" aria-label="Graph legend">
+            <span><i class="center"></i>Source</span>
+            <span><i class="suspect"></i>Suspect</span>
+            <span><i class="flagged"></i>Flagged</span>
+          </div>
+        </div>
+        <svg id="graph" viewBox="0 0 960 420" preserveAspectRatio="xMidYMid meet" aria-label="Fraud ring graph visualization"></svg>
+        <div class="graph-note" id="graph-note">Run ringDetect to expand the ring graph from the source account.</div>
+      </div>
       <p style="color:#94a3b8; font-size:0.85rem;">
         Keep `BASE` on localhost for the demo. If you later deploy the proxy, change it to `https://your-proxy-host/api/ringDetect`.
       </p>
@@ -383,9 +491,160 @@
   </main>
 
   <script>
+    const LOCAL_API = "http://localhost:8089/api/ringDetect";
+    const REMOTE_API = "https://cloudforce.vercel.app/api/ringDetect";
     const BASE = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
-      ? "http://localhost:8089/api/ringDetect"
-      : "/api/ringDetect";
+      ? LOCAL_API
+      : REMOTE_API;
+
+    function svgEl(name, attrs = {}, text = "") {
+      const el = document.createElementNS("http://www.w3.org/2000/svg", name);
+      Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+      if (text) el.textContent = text;
+      return el;
+    }
+
+    function clearGraph(svg) {
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+    }
+
+    function renderGraph(src, rows) {
+      const svg = document.getElementById('graph');
+      const note = document.getElementById('graph-note');
+      if (!svg || !note) return;
+
+      clearGraph(svg);
+
+      const width = 960;
+      const height = 420;
+      const cx = width / 2;
+      const cy = height / 2;
+      const NS = "http://www.w3.org/2000/svg";
+
+      const defs = svgEl('defs');
+      defs.appendChild(svgEl('linearGradient', { id: 'centerFill', x1: '0%', y1: '0%', x2: '100%', y2: '100%' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '0%', 'stop-color': '#93c5fd' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#2563eb' }));
+      defs.appendChild(svgEl('linearGradient', { id: 'suspectFill', x1: '0%', y1: '0%', x2: '100%', y2: '100%' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '0%', 'stop-color': '#fdba74' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#f97316' }));
+      defs.appendChild(svgEl('linearGradient', { id: 'flaggedFill', x1: '0%', y1: '0%', x2: '100%', y2: '100%' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '0%', 'stop-color': '#fda4af' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#fb7185' }));
+      defs.appendChild(svgEl('filter', { id: 'glow', x: '-40%', y: '-40%', width: '180%', height: '180%' }));
+      const blur = svgEl('feGaussianBlur', { stdDeviation: '3.5', result: 'blur' });
+      defs.lastChild.appendChild(blur);
+      defs.lastChild.appendChild(svgEl('feMerge'));
+      defs.lastChild.lastChild.appendChild(svgEl('feMergeNode', { in: 'blur' }));
+      defs.lastChild.lastChild.appendChild(svgEl('feMergeNode', { in: 'SourceGraphic' }));
+      svg.appendChild(defs);
+
+      svg.appendChild(svgEl('rect', {
+        x: 0, y: 0, width, height, rx: 24,
+        fill: 'rgba(2,6,23,0.45)',
+        stroke: 'rgba(148,163,184,0.12)'
+      }));
+
+      const grid = svgEl('g', { opacity: '0.28' });
+      for (let x = 80; x < width; x += 80) {
+        grid.appendChild(svgEl('line', { x1: x, y1: 26, x2: x, y2: height - 26, stroke: 'rgba(148,163,184,0.12)', 'stroke-width': '1' }));
+      }
+      for (let y = 70; y < height; y += 70) {
+        grid.appendChild(svgEl('line', { x1: 26, y1: y, x2: width - 26, y2: y, stroke: 'rgba(148,163,184,0.10)', 'stroke-width': '1' }));
+      }
+      svg.appendChild(grid);
+
+      const sourceRadius = 38;
+      const sourceGroup = svgEl('g', { class: 'graph-node' });
+      sourceGroup.appendChild(svgEl('circle', {
+        cx, cy, r: sourceRadius,
+        fill: 'url(#centerFill)',
+        stroke: 'rgba(186,230,253,0.95)',
+        'stroke-width': '3'
+      }));
+      sourceGroup.appendChild(svgEl('circle', {
+        cx, cy, r: sourceRadius + 14,
+        fill: 'none',
+        stroke: 'rgba(96,165,250,0.22)',
+        'stroke-width': '2'
+      }));
+      sourceGroup.appendChild(svgEl('text', { x: cx, y: cy - 2, class: 'graph-node-label' }, src || 'SOURCE'));
+      sourceGroup.appendChild(svgEl('text', { x: cx, y: cy + 18, class: 'graph-node-meta' }, 'SOURCE'));
+      svg.appendChild(sourceGroup);
+
+      if (!rows.length) {
+        note.textContent = 'Run ringDetect to expand the ring graph from the source account.';
+        svg.appendChild(svgEl('text', { x: cx, y: 330, class: 'graph-node-meta' }, 'Waiting for query results'));
+        svg.appendChild(svgEl('text', { x: cx, y: 350, class: 'graph-node-meta' }, 'shared devices • phones • IPs • merchants'));
+        return;
+      }
+
+      const count = rows.length;
+      const radius = Math.min(178, 116 + Math.min(count, 10) * 6);
+      const nodes = rows.map((r, index) => {
+        const attr = r.attributes;
+        const angle = (-Math.PI / 2) + (2 * Math.PI * index / count);
+        const x = cx + radius * Math.cos(angle);
+        const y = cy + radius * Math.sin(angle);
+        return {
+          ...attr,
+          x,
+          y,
+          angle,
+          r: 21 + Math.min(10, Number(attr['@shared_count'] || 0)),
+        };
+      });
+
+      nodes.forEach((node, index) => {
+        const link = svgEl('line', {
+          x1: cx,
+          y1: cy,
+          x2: node.x,
+          y2: node.y,
+          class: 'graph-link' + (node.flagged ? '' : ' dim')
+        });
+        svg.appendChild(link);
+
+        const lx = cx + (node.x - cx) * 0.55;
+        const ly = cy + (node.y - cy) * 0.55;
+        const tag = svgEl('g');
+        const pill = svgEl('rect', {
+          x: lx - 20,
+          y: ly - 11,
+          rx: 11,
+          ry: 11,
+          width: 40,
+          height: 22,
+          fill: 'rgba(2,6,23,0.85)',
+          stroke: 'rgba(148,163,184,0.22)'
+        });
+        tag.appendChild(pill);
+        tag.appendChild(svgEl('text', { x: lx, y: ly + 4, class: 'graph-link-label' }, String(node['@shared_count'])));
+        svg.appendChild(tag);
+      });
+
+      nodes.forEach(node => {
+        const group = svgEl('g', { class: 'graph-node', transform: `translate(${node.x}, ${node.y})` });
+        group.appendChild(svgEl('circle', {
+          cx: 0, cy: 0, r: node.r,
+          fill: node.flagged ? 'url(#flaggedFill)' : 'url(#suspectFill)',
+          stroke: node.flagged ? 'rgba(254,202,202,0.95)' : 'rgba(254,215,170,0.95)',
+          'stroke-width': '2.5',
+          filter: 'url(#glow)'
+        }));
+        group.appendChild(svgEl('circle', {
+          cx: 0, cy: 0, r: node.r + 10,
+          fill: 'none',
+          stroke: node.flagged ? 'rgba(251,113,133,0.15)' : 'rgba(249,115,22,0.12)',
+          'stroke-width': '2'
+        }));
+        group.appendChild(svgEl('text', { x: 0, y: -2, class: 'graph-node-label' }, node.pid));
+        group.appendChild(svgEl('text', { x: 0, y: 16, class: 'graph-node-meta' }, node.flagged ? 'FLAGGED' : `SHARED ${node['@shared_count']}`));
+        svg.appendChild(group);
+      });
+
+      note.textContent = `${count} suspect${count === 1 ? '' : 's'} linked to ${src} through shared identifiers.`;
+    }
 
     async function runQuery() {
       const src = document.getElementById('src').value.trim();
@@ -402,6 +661,7 @@
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         const data = await resp.json();
         const rows = data.results?.[0]?.ordered || [];
+        renderGraph(src, rows);
         if (!rows.length) { status.textContent = 'No results — try a different account or lower min_shared'; return; }
         rows.forEach(r => {
           const attr = r.attributes;
@@ -413,8 +673,11 @@
         status.textContent = `Fetched ${rows.length} suspects for ${src}`;
       } catch (e) {
         status.textContent = 'Error: ' + e.message + ' (verify proxy URL and TigerGraph)';
+        renderGraph(src, []);
       }
     }
+
+    renderGraph(document.getElementById('src').value.trim(), []);
   </script>
 </body>
 </html>

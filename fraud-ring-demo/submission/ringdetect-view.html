@@ -163,6 +163,98 @@
       font-size: 0.78rem;
     }
     tr:nth-child(even) { background: rgba(15,23,42,0.6); }
+    .graph-panel {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid rgba(96,165,250,0.24);
+      background: linear-gradient(180deg, rgba(8,15,25,0.96), rgba(4,9,18,0.95));
+      box-shadow: inset 0 0 40px rgba(96,165,250,0.08);
+      display: grid;
+      gap: 14px;
+    }
+    .graph-panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .graph-panel-head h2 {
+      margin: 0;
+      font-size: 1.12rem;
+      color: #f8fafc;
+      letter-spacing: 0.02em;
+    }
+    .graph-panel-head p {
+      margin: 8px 0 0;
+      color: #cbd5e1;
+      line-height: 1.5;
+      max-width: 58ch;
+    }
+    .graph-legend {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .graph-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.25);
+      background: rgba(255,255,255,0.04);
+      color: #dbeafe;
+      font-size: 0.8rem;
+    }
+    .graph-legend i {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .graph-legend .center { background: #60a5fa; }
+    .graph-legend .suspect { background: #f97316; }
+    .graph-legend .flagged { background: #fb7185; }
+    #graph {
+      width: 100%;
+      min-height: 330px;
+      display: block;
+      overflow: visible;
+    }
+    .graph-link {
+      stroke: rgba(148,163,184,0.5);
+      stroke-width: 2.4;
+    }
+    .graph-link.dim {
+      stroke-dasharray: 8 8;
+      stroke: rgba(148,163,184,0.34);
+    }
+    .graph-link-label {
+      fill: #cbd5e1;
+      font-size: 12px;
+      font-weight: 600;
+      text-anchor: middle;
+    }
+    .graph-node-label {
+      fill: #f8fafc;
+      font-size: 13px;
+      font-weight: 700;
+      text-anchor: middle;
+    }
+    .graph-node-meta {
+      fill: #94a3b8;
+      font-size: 10px;
+      font-weight: 600;
+      text-anchor: middle;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .graph-note {
+      color: #94a3b8;
+      font-size: 0.88rem;
+    }
     .small {
       margin-top: 14px;
       font-size: 12px;
@@ -220,6 +312,21 @@
         </thead>
         <tbody></tbody>
       </table>
+      <div class="graph-panel">
+        <div class="graph-panel-head">
+          <div>
+            <h2>Source-to-ring graph</h2>
+            <p>The source account sits in the center. Suspects are arranged around it, with link labels showing how many shared signals connect them back to the ring.</p>
+          </div>
+          <div class="graph-legend">
+            <span><i class="center"></i>Source</span>
+            <span><i class="suspect"></i>Suspect</span>
+            <span><i class="flagged"></i>Flagged</span>
+          </div>
+        </div>
+        <svg id="graph" viewBox="0 0 960 420" preserveAspectRatio="xMidYMid meet" aria-label="Fraud ring graph visualization"></svg>
+        <div class="graph-note" id="graph-note">Run ringDetect to expand the ring graph from the source account.</div>
+      </div>
 
       <div class="small">
         Local proxy: <code>http://localhost:8089/api/ringDetect</code><br>
@@ -229,10 +336,143 @@
   </main>
 
   <script>
-    // Keep localhost for local testing; swap to your deployed proxy only if needed.
+    const LOCAL_API = "http://localhost:8089/api/ringDetect";
+    const REMOTE_API = "https://cloudforce.vercel.app/api/ringDetect";
     const BASE = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
-      ? "http://localhost:8089/api/ringDetect"
-      : "/api/ringDetect";
+      ? LOCAL_API
+      : REMOTE_API;
+
+    function svgEl(name, attrs = {}, text = "") {
+      const el = document.createElementNS("http://www.w3.org/2000/svg", name);
+      Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+      if (text) el.textContent = text;
+      return el;
+    }
+
+    function clearGraph(svg) {
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+    }
+
+    function renderGraph(src, rows) {
+      const svg = document.getElementById('graph');
+      const note = document.getElementById('graph-note');
+      if (!svg || !note) return;
+      clearGraph(svg);
+
+      const width = 960;
+      const height = 420;
+      const cx = width / 2;
+      const cy = height / 2;
+
+      const defs = svgEl('defs');
+      const gradients = [
+        ['centerFill', ['#93c5fd', '#2563eb']],
+        ['suspectFill', ['#fdba74', '#f97316']],
+        ['flaggedFill', ['#fda4af', '#fb7185']],
+      ];
+      gradients.forEach(([id, colors]) => {
+        const grad = svgEl('linearGradient', { id, x1: '0%', y1: '0%', x2: '100%', y2: '100%' });
+        grad.appendChild(svgEl('stop', { offset: '0%', 'stop-color': colors[0] }));
+        grad.appendChild(svgEl('stop', { offset: '100%', 'stop-color': colors[1] }));
+        defs.appendChild(grad);
+      });
+      const filter = svgEl('filter', { id: 'glow', x: '-40%', y: '-40%', width: '180%', height: '180%' });
+      filter.appendChild(svgEl('feGaussianBlur', { stdDeviation: '3.5', result: 'blur' }));
+      const merge = svgEl('feMerge');
+      merge.appendChild(svgEl('feMergeNode', { in: 'blur' }));
+      merge.appendChild(svgEl('feMergeNode', { in: 'SourceGraphic' }));
+      filter.appendChild(merge);
+      defs.appendChild(filter);
+      svg.appendChild(defs);
+
+      svg.appendChild(svgEl('rect', {
+        x: 0, y: 0, width, height, rx: 24,
+        fill: 'rgba(2,6,23,0.45)',
+        stroke: 'rgba(148,163,184,0.12)'
+      }));
+      for (let x = 80; x < width; x += 80) {
+        svg.appendChild(svgEl('line', { x1: x, y1: 24, x2: x, y2: height - 24, stroke: 'rgba(148,163,184,0.10)', 'stroke-width': '1' }));
+      }
+      for (let y = 70; y < height; y += 70) {
+        svg.appendChild(svgEl('line', { x1: 24, y1: y, x2: width - 24, y2: y, stroke: 'rgba(148,163,184,0.08)', 'stroke-width': '1' }));
+      }
+
+      const sourceRadius = 38;
+      const sourceGroup = svgEl('g');
+      sourceGroup.appendChild(svgEl('circle', {
+        cx, cy, r: sourceRadius,
+        fill: 'url(#centerFill)',
+        stroke: 'rgba(186,230,253,0.95)',
+        'stroke-width': '3'
+      }));
+      sourceGroup.appendChild(svgEl('circle', {
+        cx, cy, r: sourceRadius + 14,
+        fill: 'none',
+        stroke: 'rgba(96,165,250,0.22)',
+        'stroke-width': '2'
+      }));
+      sourceGroup.appendChild(svgEl('text', { x: cx, y: cy - 2, class: 'graph-node-label' }, src || 'SOURCE'));
+      sourceGroup.appendChild(svgEl('text', { x: cx, y: cy + 18, class: 'graph-node-meta' }, 'SOURCE'));
+      svg.appendChild(sourceGroup);
+
+      if (!rows.length) {
+        note.textContent = 'Run ringDetect to expand the ring graph from the source account.';
+        svg.appendChild(svgEl('text', { x: cx, y: 328, class: 'graph-node-meta' }, 'Waiting for query results'));
+        svg.appendChild(svgEl('text', { x: cx, y: 348, class: 'graph-node-meta' }, 'shared devices • phones • IPs • merchants'));
+        return;
+      }
+
+      const count = rows.length;
+      const radius = Math.min(178, 116 + Math.min(count, 10) * 6);
+      const nodes = rows.map((r, index) => {
+        const attr = r.attributes;
+        const angle = (-Math.PI / 2) + (2 * Math.PI * index / count);
+        return {
+          ...attr,
+          x: cx + radius * Math.cos(angle),
+          y: cy + radius * Math.sin(angle),
+          r: 21 + Math.min(10, Number(attr['@shared_count'] || 0)),
+        };
+      });
+
+      nodes.forEach(node => {
+        svg.appendChild(svgEl('line', {
+          x1: cx, y1: cy, x2: node.x, y2: node.y,
+          class: 'graph-link' + (node.flagged ? '' : ' dim')
+        }));
+        const lx = cx + (node.x - cx) * 0.55;
+        const ly = cy + (node.y - cy) * 0.55;
+        const tag = svgEl('g');
+        tag.appendChild(svgEl('rect', {
+          x: lx - 20, y: ly - 11, rx: 11, ry: 11, width: 40, height: 22,
+          fill: 'rgba(2,6,23,0.85)', stroke: 'rgba(148,163,184,0.22)'
+        }));
+        tag.appendChild(svgEl('text', { x: lx, y: ly + 4, class: 'graph-link-label' }, String(node['@shared_count'])));
+        svg.appendChild(tag);
+      });
+
+      nodes.forEach(node => {
+        const group = svgEl('g', { transform: `translate(${node.x}, ${node.y})` });
+        group.appendChild(svgEl('circle', {
+          cx: 0, cy: 0, r: node.r,
+          fill: node.flagged ? 'url(#flaggedFill)' : 'url(#suspectFill)',
+          stroke: node.flagged ? 'rgba(254,202,202,0.95)' : 'rgba(254,215,170,0.95)',
+          'stroke-width': '2.5',
+          filter: 'url(#glow)'
+        }));
+        group.appendChild(svgEl('circle', {
+          cx: 0, cy: 0, r: node.r + 10,
+          fill: 'none',
+          stroke: node.flagged ? 'rgba(251,113,133,0.15)' : 'rgba(249,115,22,0.12)',
+          'stroke-width': '2'
+        }));
+        group.appendChild(svgEl('text', { x: 0, y: -2, class: 'graph-node-label' }, node.pid));
+        group.appendChild(svgEl('text', { x: 0, y: 16, class: 'graph-node-meta' }, node.flagged ? 'FLAGGED' : `SHARED ${node['@shared_count']}`));
+        svg.appendChild(group);
+      });
+
+      note.textContent = `${count} suspect${count === 1 ? '' : 's'} linked to ${src} through shared identifiers.`;
+    }
 
     async function runQuery() {
       const src = document.getElementById('src').value.trim();
@@ -250,6 +490,7 @@
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         const data = await resp.json();
         const rows = data.results?.[0]?.ordered || [];
+        renderGraph(src, rows);
         if (!rows.length) { status.textContent = 'No results'; return; }
         rows.forEach(r => {
           const attr = r.attributes;
@@ -261,8 +502,11 @@
         status.textContent = `Fetched ${rows.length} suspects for ${src}`;
       } catch (e) {
         status.textContent = 'Error: ' + e.message + ' (Check proxy URL and TigerGraph)';
+        renderGraph(src, []);
       }
     }
+
+    renderGraph(document.getElementById('src').value.trim(), []);
   </script>
 </body>
 </html>
