@@ -7,7 +7,7 @@
   <style>
     :root {
       font-family: 'Sora', 'Inter', system-ui, sans-serif;
-      color: #ffffff;
+      color: #f8fafc;
       background-color: #010409;
     }
     * { box-sizing: border-box; }
@@ -28,11 +28,11 @@
       gap: 32px;
     }
     header.hero {
-      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(2,6,23,0.85));
+      background: linear-gradient(135deg, rgba(18,24,34,0.96), rgba(6,10,16,0.95));
       border-radius: 32px;
       padding: 40px;
-      border: 1px solid rgba(148,163,184,0.2);
-      box-shadow: 0 30px 80px rgba(2,6,23,0.8);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.44);
       position: relative;
       overflow: hidden;
     }
@@ -82,7 +82,7 @@
     }
     header.hero p {
       margin-top: 12px;
-      color: #cbd5f5;
+      color: #cbd5e1;
       max-width: 720px;
       line-height: 1.6;
       position: relative;
@@ -101,11 +101,11 @@
       font-weight: 700;
     }
     .hero-actions .primary {
-      background: linear-gradient(135deg, #38bdf8, #6366f1);
-      color: #020617;
+      background: linear-gradient(135deg, #ffb36b, #ff6f00);
+      color: #09111f;
     }
     .hero-actions .secondary {
-      border: 1px solid rgba(148,163,184,0.35);
+      border: 1px solid rgba(255,255,255,0.08);
       color: #e2e8f0;
       background: rgba(15,23,42,0.45);
     }
@@ -129,10 +129,10 @@
       gap: 20px;
     }
     .card {
-      background: rgba(15,23,42,0.9);
+      background: rgba(10,14,20,0.9);
       border-radius: 20px;
       padding: 24px;
-      border: 1px solid rgba(99,102,241,0.3);
+      border: 1px solid rgba(255,255,255,0.08);
       min-height: 220px;
       display: flex;
       flex-direction: column;
@@ -143,11 +143,11 @@
       font-size: 1rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #a5b4fc;
+      color: #dbeafe;
     }
     .card p {
       margin: 0;
-      color: #cbd5f5;
+      color: #cbd5e1;
       line-height: 1.5;
       flex: 1;
     }
@@ -155,11 +155,11 @@
       color: #fcd34d;
     }
     .run-card {
-      background: rgba(8,15,25,0.95);
+      background: linear-gradient(180deg, rgba(10,14,20,0.96), rgba(5,8,13,0.96));
       border-radius: 24px;
-      border: 1px solid rgba(248,250,252,0.15);
+      border: 1px solid rgba(255,255,255,0.08);
       padding: 32px;
-      box-shadow: inset 0 0 30px rgba(59,130,246,0.1);
+      box-shadow: inset 0 0 18px rgba(255,111,0,0.05);
       display: grid;
       gap: 16px;
     }
@@ -177,18 +177,18 @@
       padding: 10px 12px;
       border-radius: 14px;
       border: 1px solid rgba(148,163,184,0.4);
-      background: rgba(2,6,23,0.6);
-      color: #ffffff;
+      background: rgba(2,6,23,0.55);
+      color: #f8fafc;
     }
     .run-card button {
       justify-self: start;
       padding: 10px 24px;
-      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      background: linear-gradient(135deg, #ffb36b, #ff6f00);
       border-radius: 16px;
       border: none;
-      color: #020617;
+      color: #09111f;
       font-weight: 700;
-      box-shadow: 0 10px 20px rgba(15,118,110,0.4);
+      box-shadow: 0 10px 20px rgba(255,111,0,0.18);
     }
     #status {
       min-height: 22px;
@@ -198,7 +198,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      background: rgba(2,6,23,0.6);
+      background: rgba(2,6,23,0.55);
       border-radius: 16px;
       overflow: hidden;
     }
@@ -220,13 +220,13 @@
       gap: 16px;
       padding: 24px;
       border-radius: 24px;
-      border: 1px solid rgba(255,111,0,0.28);
+      border: 1px solid rgba(255,255,255,0.08);
       background:
         radial-gradient(circle at top right, rgba(255,111,0,0.14), transparent 34%),
         linear-gradient(180deg, rgba(10,14,20,0.98), rgba(5,8,13,0.98));
       box-shadow:
-        inset 0 0 40px rgba(255,111,0,0.08),
-        0 20px 50px rgba(0,0,0,0.32);
+        inset 0 0 20px rgba(255,111,0,0.04),
+        0 16px 32px rgba(0,0,0,0.22);
     }
     .graph-panel-head {
       display: flex;
@@ -239,7 +239,7 @@
       margin: 0;
       font-size: 1.25rem;
       letter-spacing: 0.02em;
-      color: #ffffff;
+      color: #f8fafc;
       text-transform: none;
     }
     .graph-panel-head p {
@@ -259,9 +259,9 @@
       gap: 8px;
       padding: 8px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255,111,0,0.22);
-      background: rgba(255,255,255,0.03);
-      color: #f8fafc;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      color: #e5e7eb;
       font-size: 0.82rem;
       letter-spacing: 0.02em;
     }
@@ -368,7 +368,7 @@
       text-decoration: none;
     }
     .demo-actions span {
-      color: #cbd5f5;
+      color: #cbd5e1;
       font-size: 0.9rem;
     }
     footer {
@@ -467,7 +467,7 @@
         <div class="graph-panel-head">
           <div>
             <h2>Source-to-ring graph</h2>
-            <p>The source account sits in the center. Suspects are arranged around it, with link labels showing how many shared signals connect them back to the ring.</p>
+            <p>Explore the ring in TigerGraph-style view: the source account sits in the center, suspects are arranged around it, and links show how strongly each account connects back to the ring.</p>
           </div>
           <div class="graph-legend" aria-label="Graph legend">
             <span><i class="center"></i>Source</span>
@@ -476,7 +476,7 @@
           </div>
         </div>
         <svg id="graph" viewBox="0 0 960 420" preserveAspectRatio="xMidYMid meet" aria-label="Fraud ring graph visualization"></svg>
-        <div class="graph-note" id="graph-note">Run ringDetect to expand the ring graph from the source account.</div>
+        <div class="graph-note" id="graph-note">Explore the ring graph with the source at center.</div>
       </div>
       <p style="color:#94a3b8; font-size:0.85rem;">
         Keep `BASE` on localhost for the demo. If you later deploy the proxy, change it to `https://your-proxy-host/api/ringDetect`.
@@ -570,7 +570,7 @@
       }
       svg.appendChild(grid);
 
-      const sourceRadius = 38;
+      const sourceRadius = 34;
       const sourceGroup = svgEl('g', { class: 'graph-node' });
       sourceGroup.appendChild(svgEl('circle', {
         cx, cy, r: sourceRadius,
@@ -582,21 +582,21 @@
         cx, cy, r: sourceRadius + 14,
         fill: 'none',
         stroke: 'rgba(255,111,0,0.2)',
-        'stroke-width': '2'
+        'stroke-width': '1.7'
       }));
       sourceGroup.appendChild(svgEl('text', { x: cx, y: cy - 2, class: 'graph-node-label' }, src || 'SOURCE'));
       sourceGroup.appendChild(svgEl('text', { x: cx, y: cy + 18, class: 'graph-node-meta' }, 'SOURCE'));
       svg.appendChild(sourceGroup);
 
       if (!rows.length) {
-        note.textContent = 'Run ringDetect to expand the ring graph from the source account.';
+        note.textContent = 'Explore the ring graph with the source at center.';
         svg.appendChild(svgEl('text', { x: cx, y: 330, class: 'graph-node-meta' }, 'Waiting for query results'));
-        svg.appendChild(svgEl('text', { x: cx, y: 350, class: 'graph-node-meta' }, 'shared devices • phones • IPs • merchants'));
+        svg.appendChild(svgEl('text', { x: cx, y: 350, class: 'graph-node-meta' }, 'shared signals • devices • phones • IPs • merchants'));
         return;
       }
 
       const count = rows.length;
-      const radius = Math.min(178, 116 + Math.min(count, 10) * 6);
+      const radius = Math.min(156, 100 + Math.min(count, 10) * 4);
       const nodes = rows.map((r, index) => {
         const attr = r.attributes;
         const angle = (-Math.PI / 2) + (2 * Math.PI * index / count);
@@ -607,7 +607,7 @@
           x,
           y,
           angle,
-          r: 21 + Math.min(10, Number(attr['@shared_count'] || 0)),
+          r: 18 + Math.min(8, Number(attr['@shared_count'] || 0)),
         };
       });
 
@@ -645,14 +645,14 @@
           cx: 0, cy: 0, r: node.r,
           fill: node.flagged ? 'url(#flaggedFill)' : 'url(#suspectFill)',
           stroke: node.flagged ? 'rgba(255,221,157,0.95)' : 'rgba(148,163,184,0.8)',
-          'stroke-width': '2.5',
+          'stroke-width': '2.1',
           filter: 'url(#glow)'
         }));
         group.appendChild(svgEl('circle', {
           cx: 0, cy: 0, r: node.r + 10,
           fill: 'none',
           stroke: node.flagged ? 'rgba(255,111,0,0.16)' : 'rgba(255,255,255,0.08)',
-          'stroke-width': '2'
+          'stroke-width': '1.7'
         }));
         group.appendChild(svgEl('text', { x: 0, y: -2, class: 'graph-node-label' }, node.pid));
         group.appendChild(svgEl('text', { x: 0, y: 16, class: 'graph-node-meta' }, node.flagged ? 'FLAGGED' : `SHARED ${node['@shared_count']}`));
