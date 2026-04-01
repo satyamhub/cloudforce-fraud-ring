@@ -20,7 +20,7 @@ It exposes shared devices, phones, IPs, merchants, and money-flow links that fra
 
 - Deck PDF: `CLOUDFORCE_Fraud_Ring_Early_Warning.pdf`
 - Interactive viewer: `docs/ringdetect-view.html`
-- Submission video: `fraud-ring-demo/submission/Cloudforce_Fraud_Ring_Demo_Male_Short.mp4`
+- Demo page: `demo.html`
 
 ## About
 
@@ -67,9 +67,9 @@ Data flows from TigerGraph queries through a tokenless proxy into a judge-friend
 
 ## Submission
 
-The submission package centers on the demo video and web viewer:
+The submission package centers on the browser demo page and web viewer:
 
-- Demo video: `fraud-ring-demo/submission/Cloudforce_Fraud_Ring_Demo_Male_Short.mp4`
+- Demo page: `demo.html`
 - Interactive viewer: `docs/ringdetect-view.html`
 - Presentation page: `docs/index.html`
 
