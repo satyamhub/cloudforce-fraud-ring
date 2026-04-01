@@ -1,14 +1,14 @@
 # Cloudforce Fraud Ring
 
-TigerGraph-powered fraud-ring early warning demo for Devacation 2026.
+Detect coordinated fraud rings with a graph-native investigation flow built on TigerGraph.
 
 ![TigerGraph logo](assets/tigergraph-logo.png)
 
 Live preview: https://cloudforce.vercel.app/
 Static preview: https://satyamhub.github.io/cloudforce-fraud-ring/
 
-We built a graph-native fraud detector that turns one suspicious account into a full investigation path in seconds.
-The graph reveals shared devices, phones, IPs, merchants, and money-flow links that fraud rings use to hide in plain sight.
+Cloudforce turns one suspicious account into a full investigation path in seconds.
+It exposes shared devices, phones, IPs, merchants, and money-flow links that fraud rings use to hide in plain sight.
 
 > One suspicious account. One graph query. The full ring.
 
@@ -18,47 +18,37 @@ The graph reveals shared devices, phones, IPs, merchants, and money-flow links t
 
 ## Quick Links
 
-- Live preview: https://cloudforce.vercel.app/
-- Static preview: https://satyamhub.github.io/cloudforce-fraud-ring/
 - Deck PDF: `CLOUDFORCE_Fraud_Ring_Early_Warning.pdf`
-- Deploy guide: `DEPLOY.md`
 - Interactive viewer: `docs/ringdetect-view.html`
+- Submission video: `fraud-ring-demo/submission/Cloudforce_Fraud_Ring_Demo_Male_Short.mp4`
 
 ## About
 
-Cloudforce Fraud Ring is a TigerGraph-powered fraud detection demo that surfaces coordinated mule rings by tracing shared devices, phones, IPs, merchants, and money-flow paths.
+Cloudforce Fraud Ring is a TigerGraph-powered fraud detection demo for coordinated mule rings.
 It starts from one suspicious account, expands the connected network, and explains why each suspect looks risky so investigators can move fast.
 
 ## What It Does
 
-- `ringDetect(src, min_shared, top_k)` expands from one account to the connected suspicious ring.
-- `muleRanking(top_k)` ranks suspicious accounts using shared activity and network signals.
-- A lightweight Flask proxy keeps the demo tokenless by default and still lets you add a cloud token later if you choose to deploy the proxy remotely.
-- A polished HTML viewer makes the demo judge-friendly and easy to understand.
+- `ringDetect(src, min_shared, top_k)` expands one account into the connected suspicious ring.
+- `muleRanking(top_k)` ranks suspicious accounts with shared activity and network signals.
+- A lightweight Flask proxy keeps the demo tokenless by default, with optional cloud auth later.
+- A polished HTML viewer keeps the demo judge-friendly and easy to follow.
 
 ## Architecture
 
-`Data -> TigerGraph graph + queries -> tokenless proxy -> HTML viewer -> judge-friendly demo`
+Data flows from TigerGraph queries through a tokenless proxy into a judge-friendly HTML viewer.
 
 ## Why This Stands Out
 
 - Real-world fraud rings often reuse the same device, IP, phone, or merchant across many accounts.
 - Graph analytics exposes the hidden pattern that regular transaction rules miss.
-- The UI is built for presentation: simple inputs, explainable results, and clear story flow.
-- The repo includes both the code and the submission-ready deck assets.
+- The UI is built for presentation: simple inputs, explainable results, and a clear story flow.
+- The repo includes the code and submission deck assets.
 
 ## Live Demo
 
-- Live preview: https://cloudforce.vercel.app/
-- Static preview: https://satyamhub.github.io/cloudforce-fraud-ring/
 - Presentation page: `docs/index.html`
 - Interactive viewer: `docs/ringdetect-view.html`
-- Deploy guide: `DEPLOY.md`
-
-## Screenshots
-
-- Presentation UI: `docs/index.html`
-- Interactive ringDetect viewer: `docs/ringdetect-view.html`
 
 ## Project Structure
 
@@ -75,6 +65,14 @@ It starts from one suspicious account, expands the connected network, and explai
 - `CLOUDFORCE_Fraud_Ring_Early_Warning_screenshots.pptx`
 - `CLOUDFORCE_Fraud_Ring_Early_Warning.pdf`
 
+## Submission
+
+The submission package centers on the demo video and web viewer:
+
+- Demo video: `fraud-ring-demo/submission/Cloudforce_Fraud_Ring_Demo_Male_Short.mp4`
+- Interactive viewer: `docs/ringdetect-view.html`
+- Presentation page: `docs/index.html`
+
 ## Quick Start
 
 1. Generate the sample data:
@@ -84,7 +82,7 @@ It starts from one suspicious account, expands the connected network, and explai
    ```
 2. Load the graph and queries into TigerGraph.
 3. Run the proxy from `fraud-ring-demo/submission/proxy.py`.
-4. Open `docs/index.html` or `docs/ringdetect-view.html`.
+4. Open the presentation page or interactive viewer.
 
 ## Why It Matters
 
@@ -92,7 +90,7 @@ Fraud rings are hard to detect when each transaction is viewed alone. Graph anal
 
 ## Presentation Hook
 
-> "Fraud rings hide by reusing the same devices, IPs, phones, and merchants across many accounts. Cloudforce exposes that hidden network with TigerGraph."
+> Fraud rings hide by reusing the same devices, IPs, phones, and merchants across many accounts. Cloudforce exposes that hidden network with TigerGraph.
 
 ## Team
 
