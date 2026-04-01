@@ -100,7 +100,7 @@
       border-radius: 14px;
       border: 1px solid rgba(148,163,184,0.4);
       background: rgba(2,6,23,0.58);
-      color: #f8fafc;
+      color: #ffffff;
     }
     button {
       padding: 12px 16px;
@@ -134,7 +134,7 @@
     }
     .stat strong {
       font-size: 1.08rem;
-      color: #f8fafc;
+      color: #ffffff;
     }
     #status {
       margin-top: 14px;
@@ -183,7 +183,7 @@
     .graph-panel-head h2 {
       margin: 0;
       font-size: 1.12rem;
-      color: #f8fafc;
+      color: #ffffff;
       letter-spacing: 0.02em;
     }
     .graph-panel-head p {
@@ -203,9 +203,9 @@
       gap: 8px;
       padding: 8px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.25);
-      background: rgba(255,255,255,0.04);
-      color: #dbeafe;
+      border: 1px solid rgba(255,111,0,0.22);
+      background: rgba(255,255,255,0.03);
+      color: #f8fafc;
       font-size: 0.8rem;
     }
     .graph-legend i {
@@ -214,9 +214,9 @@
       border-radius: 999px;
       display: inline-block;
     }
-    .graph-legend .center { background: #60a5fa; }
-    .graph-legend .suspect { background: #f97316; }
-    .graph-legend .flagged { background: #fb7185; }
+    .graph-legend .center { background: #ff6f00; }
+    .graph-legend .suspect { background: #475569; }
+    .graph-legend .flagged { background: #f59e0b; }
     #graph {
       width: 100%;
       min-height: 330px;
@@ -229,37 +229,37 @@
     }
     .graph-link.dim {
       stroke-dasharray: 8 8;
-      stroke: rgba(148,163,184,0.34);
+      stroke: rgba(148,163,184,0.28);
     }
     .graph-link-label {
-      fill: #f8fafc;
+      fill: #ffffff;
       font-size: 12px;
       font-weight: 600;
       text-anchor: middle;
       paint-order: stroke fill;
-      stroke: rgba(2,6,23,0.9);
+      stroke: rgba(2,6,23,0.95);
       stroke-width: 3px;
       stroke-linejoin: round;
     }
     .graph-node-label {
-      fill: #08111f;
+      fill: #ffffff;
       font-size: 13px;
       font-weight: 700;
       text-anchor: middle;
       paint-order: stroke fill;
-      stroke: rgba(255,255,255,0.9);
-      stroke-width: 3px;
+      stroke: rgba(2,6,23,0.95);
+      stroke-width: 3.5px;
       stroke-linejoin: round;
     }
     .graph-node-meta {
-      fill: #0f172a;
+      fill: #e2e8f0;
       font-size: 10px;
       font-weight: 600;
       text-anchor: middle;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       paint-order: stroke fill;
-      stroke: rgba(255,255,255,0.85);
+      stroke: rgba(2,6,23,0.92);
       stroke-width: 2px;
       stroke-linejoin: round;
     }
@@ -399,8 +399,8 @@
 
       svg.appendChild(svgEl('rect', {
         x: 0, y: 0, width, height, rx: 24,
-        fill: 'rgba(2,6,23,0.45)',
-        stroke: 'rgba(148,163,184,0.12)'
+        fill: 'rgba(4,9,15,0.84)',
+        stroke: 'rgba(255,111,0,0.16)'
       }));
       for (let x = 80; x < width; x += 80) {
         svg.appendChild(svgEl('line', { x1: x, y1: 24, x2: x, y2: height - 24, stroke: 'rgba(148,163,184,0.10)', 'stroke-width': '1' }));
@@ -414,13 +414,13 @@
       sourceGroup.appendChild(svgEl('circle', {
         cx, cy, r: sourceRadius,
         fill: 'url(#centerFill)',
-        stroke: 'rgba(186,230,253,0.95)',
+        stroke: 'rgba(255,255,255,0.92)',
         'stroke-width': '3'
       }));
       sourceGroup.appendChild(svgEl('circle', {
         cx, cy, r: sourceRadius + 14,
         fill: 'none',
-        stroke: 'rgba(96,165,250,0.22)',
+        stroke: 'rgba(255,111,0,0.2)',
         'stroke-width': '2'
       }));
       sourceGroup.appendChild(svgEl('text', { x: cx, y: cy - 2, class: 'graph-node-label' }, src || 'SOURCE'));
@@ -457,7 +457,7 @@
         const tag = svgEl('g');
         tag.appendChild(svgEl('rect', {
           x: lx - 20, y: ly - 11, rx: 11, ry: 11, width: 40, height: 22,
-          fill: 'rgba(2,6,23,0.85)', stroke: 'rgba(148,163,184,0.22)'
+          fill: 'rgba(2,6,23,0.85)', stroke: 'rgba(255,111,0,0.24)'
         }));
         tag.appendChild(svgEl('text', { x: lx, y: ly + 4, class: 'graph-link-label' }, String(node['@shared_count'])));
         svg.appendChild(tag);
@@ -468,14 +468,14 @@
         group.appendChild(svgEl('circle', {
           cx: 0, cy: 0, r: node.r,
           fill: node.flagged ? 'url(#flaggedFill)' : 'url(#suspectFill)',
-          stroke: node.flagged ? 'rgba(254,202,202,0.95)' : 'rgba(254,215,170,0.95)',
+          stroke: node.flagged ? 'rgba(255,221,157,0.95)' : 'rgba(148,163,184,0.8)',
           'stroke-width': '2.5',
           filter: 'url(#glow)'
         }));
         group.appendChild(svgEl('circle', {
           cx: 0, cy: 0, r: node.r + 10,
           fill: 'none',
-          stroke: node.flagged ? 'rgba(251,113,133,0.15)' : 'rgba(249,115,22,0.12)',
+          stroke: node.flagged ? 'rgba(255,111,0,0.16)' : 'rgba(255,255,255,0.08)',
           'stroke-width': '2'
         }));
         group.appendChild(svgEl('text', { x: 0, y: -2, class: 'graph-node-label' }, node.pid));

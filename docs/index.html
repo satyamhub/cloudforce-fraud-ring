@@ -7,7 +7,7 @@
   <style>
     :root {
       font-family: 'Sora', 'Inter', system-ui, sans-serif;
-      color: #f8fafc;
+      color: #ffffff;
       background-color: #010409;
     }
     * { box-sizing: border-box; }
@@ -178,7 +178,7 @@
       border-radius: 14px;
       border: 1px solid rgba(148,163,184,0.4);
       background: rgba(2,6,23,0.6);
-      color: #f8fafc;
+      color: #ffffff;
     }
     .run-card button {
       justify-self: start;
@@ -220,9 +220,13 @@
       gap: 16px;
       padding: 24px;
       border-radius: 24px;
-      border: 1px solid rgba(96,165,250,0.25);
-      background: linear-gradient(180deg, rgba(8,15,25,0.96), rgba(4,9,18,0.95));
-      box-shadow: inset 0 0 40px rgba(96,165,250,0.08);
+      border: 1px solid rgba(255,111,0,0.28);
+      background:
+        radial-gradient(circle at top right, rgba(255,111,0,0.14), transparent 34%),
+        linear-gradient(180deg, rgba(10,14,20,0.98), rgba(5,8,13,0.98));
+      box-shadow:
+        inset 0 0 40px rgba(255,111,0,0.08),
+        0 20px 50px rgba(0,0,0,0.32);
     }
     .graph-panel-head {
       display: flex;
@@ -235,7 +239,7 @@
       margin: 0;
       font-size: 1.25rem;
       letter-spacing: 0.02em;
-      color: #f8fafc;
+      color: #ffffff;
       text-transform: none;
     }
     .graph-panel-head p {
@@ -255,9 +259,9 @@
       gap: 8px;
       padding: 8px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.25);
-      background: rgba(255,255,255,0.04);
-      color: #dbeafe;
+      border: 1px solid rgba(255,111,0,0.22);
+      background: rgba(255,255,255,0.03);
+      color: #f8fafc;
       font-size: 0.82rem;
       letter-spacing: 0.02em;
     }
@@ -267,9 +271,9 @@
       border-radius: 999px;
       display: inline-block;
     }
-    .graph-legend .center { background: #60a5fa; }
-    .graph-legend .suspect { background: #f97316; }
-    .graph-legend .flagged { background: #fb7185; }
+    .graph-legend .center { background: #ff6f00; }
+    .graph-legend .suspect { background: #475569; }
+    .graph-legend .flagged { background: #f59e0b; }
     #graph {
       width: 100%;
       min-height: 330px;
@@ -277,42 +281,42 @@
       overflow: visible;
     }
     .graph-link {
-      stroke: rgba(148,163,184,0.52);
+      stroke: rgba(255,111,0,0.34);
       stroke-width: 2.5;
     }
     .graph-link.dim {
       stroke-dasharray: 8 8;
-      stroke: rgba(148,163,184,0.34);
+      stroke: rgba(148,163,184,0.28);
     }
     .graph-link-label {
-      fill: #f8fafc;
+      fill: #ffffff;
       font-size: 12px;
       font-weight: 600;
       text-anchor: middle;
       paint-order: stroke fill;
-      stroke: rgba(2,6,23,0.9);
+      stroke: rgba(2,6,23,0.95);
       stroke-width: 3px;
       stroke-linejoin: round;
     }
     .graph-node-label {
-      fill: #08111f;
+      fill: #ffffff;
       font-size: 14px;
       font-weight: 700;
       text-anchor: middle;
       paint-order: stroke fill;
-      stroke: rgba(255,255,255,0.9);
-      stroke-width: 3px;
+      stroke: rgba(2,6,23,0.95);
+      stroke-width: 3.5px;
       stroke-linejoin: round;
     }
     .graph-node-meta {
-      fill: #0f172a;
+      fill: #e2e8f0;
       font-size: 11px;
       font-weight: 600;
       text-anchor: middle;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       paint-order: stroke fill;
-      stroke: rgba(255,255,255,0.85);
+      stroke: rgba(2,6,23,0.92);
       stroke-width: 2px;
       stroke-linejoin: round;
     }
@@ -535,14 +539,14 @@
 
       const defs = svgEl('defs');
       defs.appendChild(svgEl('linearGradient', { id: 'centerFill', x1: '0%', y1: '0%', x2: '100%', y2: '100%' }));
-      defs.lastChild.appendChild(svgEl('stop', { offset: '0%', 'stop-color': '#93c5fd' }));
-      defs.lastChild.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#2563eb' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '0%', 'stop-color': '#ffb36b' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#ff6f00' }));
       defs.appendChild(svgEl('linearGradient', { id: 'suspectFill', x1: '0%', y1: '0%', x2: '100%', y2: '100%' }));
-      defs.lastChild.appendChild(svgEl('stop', { offset: '0%', 'stop-color': '#fdba74' }));
-      defs.lastChild.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#f97316' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '0%', 'stop-color': '#334155' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#0f172a' }));
       defs.appendChild(svgEl('linearGradient', { id: 'flaggedFill', x1: '0%', y1: '0%', x2: '100%', y2: '100%' }));
-      defs.lastChild.appendChild(svgEl('stop', { offset: '0%', 'stop-color': '#fda4af' }));
-      defs.lastChild.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#fb7185' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '0%', 'stop-color': '#fbbf24' }));
+      defs.lastChild.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#ea580c' }));
       defs.appendChild(svgEl('filter', { id: 'glow', x: '-40%', y: '-40%', width: '180%', height: '180%' }));
       const blur = svgEl('feGaussianBlur', { stdDeviation: '3.5', result: 'blur' });
       defs.lastChild.appendChild(blur);
@@ -553,8 +557,8 @@
 
       svg.appendChild(svgEl('rect', {
         x: 0, y: 0, width, height, rx: 24,
-        fill: 'rgba(2,6,23,0.45)',
-        stroke: 'rgba(148,163,184,0.12)'
+        fill: 'rgba(4,9,15,0.84)',
+        stroke: 'rgba(255,111,0,0.16)'
       }));
 
       const grid = svgEl('g', { opacity: '0.28' });
@@ -571,13 +575,13 @@
       sourceGroup.appendChild(svgEl('circle', {
         cx, cy, r: sourceRadius,
         fill: 'url(#centerFill)',
-        stroke: 'rgba(186,230,253,0.95)',
+        stroke: 'rgba(255,255,255,0.92)',
         'stroke-width': '3'
       }));
       sourceGroup.appendChild(svgEl('circle', {
         cx, cy, r: sourceRadius + 14,
         fill: 'none',
-        stroke: 'rgba(96,165,250,0.22)',
+        stroke: 'rgba(255,111,0,0.2)',
         'stroke-width': '2'
       }));
       sourceGroup.appendChild(svgEl('text', { x: cx, y: cy - 2, class: 'graph-node-label' }, src || 'SOURCE'));
@@ -628,7 +632,7 @@
           width: 40,
           height: 22,
           fill: 'rgba(2,6,23,0.85)',
-          stroke: 'rgba(148,163,184,0.22)'
+          stroke: 'rgba(255,111,0,0.24)'
         });
         tag.appendChild(pill);
         tag.appendChild(svgEl('text', { x: lx, y: ly + 4, class: 'graph-link-label' }, String(node['@shared_count'])));
@@ -640,14 +644,14 @@
         group.appendChild(svgEl('circle', {
           cx: 0, cy: 0, r: node.r,
           fill: node.flagged ? 'url(#flaggedFill)' : 'url(#suspectFill)',
-          stroke: node.flagged ? 'rgba(254,202,202,0.95)' : 'rgba(254,215,170,0.95)',
+          stroke: node.flagged ? 'rgba(255,221,157,0.95)' : 'rgba(148,163,184,0.8)',
           'stroke-width': '2.5',
           filter: 'url(#glow)'
         }));
         group.appendChild(svgEl('circle', {
           cx: 0, cy: 0, r: node.r + 10,
           fill: 'none',
-          stroke: node.flagged ? 'rgba(251,113,133,0.15)' : 'rgba(249,115,22,0.12)',
+          stroke: node.flagged ? 'rgba(255,111,0,0.16)' : 'rgba(255,255,255,0.08)',
           'stroke-width': '2'
         }));
         group.appendChild(svgEl('text', { x: 0, y: -2, class: 'graph-node-label' }, node.pid));
