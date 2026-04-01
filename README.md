@@ -20,7 +20,7 @@ It exposes shared devices, phones, IPs, merchants, and money-flow links that fra
 
 - Deck PDF: `CLOUDFORCE_Fraud_Ring_Early_Warning.pdf`
 - Interactive viewer: `docs/ringdetect-view.html`
-- Demo page: `demo.html`
+- Demo page: https://satyamhub.github.io/cloudforce-fraud-ring/demo.html
 
 ## About
 
@@ -69,7 +69,7 @@ Data flows from TigerGraph queries through a tokenless proxy into a judge-friend
 
 The submission package centers on the browser demo page and web viewer:
 
-- Demo page: `demo.html`
+- Demo page: https://satyamhub.github.io/cloudforce-fraud-ring/demo.html
 - Interactive viewer: `docs/ringdetect-view.html`
 - Presentation page: `docs/index.html`
 
