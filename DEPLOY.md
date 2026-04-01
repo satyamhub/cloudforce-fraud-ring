@@ -47,7 +47,7 @@ The public Vercel preview serves the same pages and uses the bundled CSV-backed 
    - URL: `https://<your-username>.github.io/cloudforce-fraud-ring/ringdetect-view.html`
    - In `docs/ringdetect-view.html` set `const BASE = "https://<your-proxy>/api/ringDetect";`
 
-> **Token status:** The local demo path does not require a Savanna token anymore. If you deploy the proxy to the cloud, add `TG_TOKEN` there; otherwise the default local setup uses `http://localhost:9000` and works without auth.
+> **Token status:** The local demo path does not require a Savanna token. If you deploy the proxy to the cloud, add `TG_TOKEN` there; otherwise the default local setup uses `http://localhost:9000` and works without auth.
 
 ## TigerGraph reload (if needed)
 ```bash

@@ -398,7 +398,7 @@
         <span class="badge">CLOUDFORCE</span>
       </div>
       <h1>Cloudforce Fraud Ring</h1>
-      <p>Detect dense UPI/device/IP sharing networks in real time. This “RingDetect” demo hits TigerGraph REST++ through a secure proxy so judges can see the signal without exposing secrets.</p>
+      <p>Detect dense UPI/device/IP sharing networks in real time. This “RingDetect” demo hits TigerGraph REST++ through a tokenless proxy so judges can see the signal without exposing secrets.</p>
       <div class="hero-actions">
         <a class="primary" href="/docs/ringdetect-view.html" target="_blank">Open live viewer</a>
         <a class="secondary" href="https://github.com/satyamhub/cloudforce-fraud-ring/blob/main/DEPLOY.md" target="_blank" rel="noreferrer">View deploy guide</a>
@@ -417,7 +417,7 @@
       </article>
       <article class="card">
         <h2>How it works</h2>
-        <p>Your proxy (Flask + Gunicorn) handles CORS and forwards `/api/ringDetect` to TigerGraph. In local mode it talks to `http://localhost:9000`; in cloud mode you can add a bearer token server-side if you deploy the proxy remotely.</p>
+        <p>Your proxy (Flask + Gunicorn) handles CORS and forwards `/api/ringDetect` to TigerGraph. In local mode it talks to `http://localhost:9000` without any Savanna token; if you deploy the proxy remotely, a bearer token is optional.</p>
       </article>
       <article class="card">
         <h2>Impact</h2>
@@ -502,7 +502,7 @@
     </aside>
 
     <footer>
-      Demo powered by TigerGraph. The local proxy keeps the viewer responsive and lets judges run the graph demo without cloud auth friction.
+      Demo powered by TigerGraph. The local proxy keeps the viewer responsive and lets judges run the graph demo without cloud auth friction or token setup.
     </footer>
   </main>
 

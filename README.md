@@ -33,12 +33,12 @@ It starts from one suspicious account, expands the connected network, and explai
 
 - `ringDetect(src, min_shared, top_k)` expands from one account to the connected suspicious ring.
 - `muleRanking(top_k)` ranks suspicious accounts using shared activity and network signals.
-- A secure Flask proxy keeps TigerGraph secrets off the browser.
+- A lightweight Flask proxy keeps the demo tokenless by default and still lets you add a cloud token later if you choose to deploy the proxy remotely.
 - A polished HTML viewer makes the demo judge-friendly and easy to understand.
 
 ## Architecture
 
-`Data -> TigerGraph graph + queries -> secure proxy -> HTML viewer -> judge-friendly demo`
+`Data -> TigerGraph graph + queries -> tokenless proxy -> HTML viewer -> judge-friendly demo`
 
 ## Why This Stands Out
 

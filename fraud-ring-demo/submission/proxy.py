@@ -1,6 +1,9 @@
 """
 Lightweight CORS proxy for TigerGraph REST++.
 
+By default this proxy runs tokenless with the bundled CSV dataset fallback,
+so the demo works even when Savanna auth is unavailable.
+
 Usage:
   python3 -m pip install flask requests
   python3 proxy.py   # starts on http://localhost:8089
