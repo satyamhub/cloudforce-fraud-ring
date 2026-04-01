@@ -84,6 +84,53 @@
         line-height: 1.65;
       }
 
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 13px 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        transition:
+          transform 140ms ease,
+          box-shadow 140ms ease,
+          background-color 140ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button.primary {
+        background: linear-gradient(135deg, var(--accent) 0%, #f59e0b 100%);
+        color: #fff;
+        box-shadow: 0 16px 28px rgba(217, 119, 6, 0.25);
+      }
+
+      .button.primary:hover {
+        box-shadow: 0 18px 34px rgba(217, 119, 6, 0.3);
+      }
+
+      .button.secondary {
+        background: rgba(255, 255, 255, 0.75);
+        color: var(--accent-dark);
+        border: 1px solid rgba(153, 110, 58, 0.16);
+      }
+
+      .button.secondary:hover {
+        background: rgba(255, 255, 255, 0.92);
+      }
+
       .card {
         background: var(--panel);
         border: 1px solid var(--border);
@@ -161,9 +208,17 @@
       <section class="hero">
         <div class="kicker">Cloudforce Demo Video</div>
         <h1 class="title">Submission Demo</h1>
-        <p class="subtitle">
-          Cloudforce fraud-ring walkthrough.
-        </p>
+        <p class="subtitle">Cloudforce fraud-ring walkthrough.</p>
+        <div class="actions">
+          <a
+            class="button secondary"
+            href="https://github.com/satyamhub/cloudforce-fraud-ring"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub Repo
+          </a>
+        </div>
       </section>
 
       <section class="card player" aria-label="Demo video player">
@@ -182,12 +237,12 @@
       </section>
 
       <div class="meta">
-        <span class="pill"><strong>Tip</strong> Use fullscreen for the best view.</span>
-        <span class="pill">
-          <a class="link" href="https://github.com/satyamhub/cloudforce-fraud-ring">
-            Cloudforce GitHub repository
-          </a>
-        </span>
+        <span class="pill"
+          ><strong>Tip</strong> Use fullscreen for the best view.</span
+        >
+        <span class="pill"
+          >Video and source are both published on GitHub Pages.</span
+        >
       </div>
     </main>
   </body>
