@@ -27,6 +27,10 @@ It exposes shared devices, phones, IPs, merchants, and money-flow links that fra
 Cloudforce Fraud Ring is a TigerGraph-powered fraud detection demo for coordinated mule rings.
 It starts from one suspicious account, expands the connected network, and explains why each suspect looks risky so investigators can move fast.
 
+## TigerGraph Usage
+
+We load cards, devices, IPs, merchants, and transactions into TigerGraph and run REST++ queries (`restpp/query/Fraud/ringDetect`, `muleRanking`) to expand one suspicious account into its connected ring, score suspects, and explain shared identifiers. A lightweight Flask proxy fronts REST++ for the demo (tokenless locally; bearer token optional in cloud), and the viewer calls that proxy so judges can trigger TigerGraph directly.
+
 ## What It Does
 
 - `ringDetect(src, min_shared, top_k)` expands one account into the connected suspicious ring.
