@@ -20,7 +20,7 @@ It exposes shared devices, phones, IPs, merchants, and money-flow links that fra
 
 - Deck PDF: `CLOUDFORCE_Fraud_Ring_Early_Warning.pdf`
 - Interactive viewer: `docs/ringdetect-view.html`
-- Demo page: https://satyamhub.github.io/cloudforce-fraud-ring/demo.html
+- Demo page: https://satyamhub.github.io/cloudforce-fraud-ring/docs/demo.html
 
 ## About
 
