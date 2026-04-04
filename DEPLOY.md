@@ -1,6 +1,6 @@
 # Cloudforce Fraud Ring Demo — Deploy Guide
 
-## Repo name (suggested)
+## Repo name
 `cloudforce-fraud-ring`
 
 ## Public preview
