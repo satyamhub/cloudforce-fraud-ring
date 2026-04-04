@@ -18,8 +18,8 @@ It exposes shared devices, phones, IPs, merchants, and money-flow links that fra
 
 ## Quick Links
 
-- Deck PDF: `CLOUDFORCE_Fraud_Ring_Early_Warning.pdf`
-- Interactive viewer: `docs/ringdetect-view.html`
+- Deck PDF: [CLOUDFORCE_Fraud_Ring_Early_Warning.pdf](./CLOUDFORCE_Fraud_Ring_Early_Warning.pdf)
+- Interactive viewer: [docs/ringdetect-view.html](./docs/ringdetect-view.html)
 - Demo page: https://cloudforce.vercel.app/demo.html
 
 ## About
@@ -51,8 +51,8 @@ Data flows from TigerGraph queries through a tokenless proxy into a judge-friend
 
 ## Live Demo
 
-- Presentation page: `docs/index.html`
-- Interactive viewer: `docs/ringdetect-view.html`
+- Presentation page: [docs/index.html](./docs/index.html)
+- Interactive viewer: [docs/ringdetect-view.html](./docs/ringdetect-view.html)
 
 ## Project Structure
 
@@ -64,18 +64,18 @@ Data flows from TigerGraph queries through a tokenless proxy into a judge-friend
 
 ## Decks
 
-- `CLOUDFORCE_Fraud_Ring_Early_Warning.pptx`
-- `CLOUDFORCE_Fraud_Ring_Early_Warning_short.pptx`
-- `CLOUDFORCE_Fraud_Ring_Early_Warning_screenshots.pptx`
-- `CLOUDFORCE_Fraud_Ring_Early_Warning.pdf`
+- [CLOUDFORCE_Fraud_Ring_Early_Warning.pptx](./CLOUDFORCE_Fraud_Ring_Early_Warning.pptx)
+- [CLOUDFORCE_Fraud_Ring_Early_Warning_short.pptx](./CLOUDFORCE_Fraud_Ring_Early_Warning_short.pptx)
+- [CLOUDFORCE_Fraud_Ring_Early_Warning_screenshots.pptx](./CLOUDFORCE_Fraud_Ring_Early_Warning_screenshots.pptx)
+- [CLOUDFORCE_Fraud_Ring_Early_Warning.pdf](./CLOUDFORCE_Fraud_Ring_Early_Warning.pdf)
 
 ## Submission
 
 The submission package centers on the browser demo page and web viewer:
 
 - Demo page: https://satyamhub.github.io/cloudforce-fraud-ring/demo.html
-- Interactive viewer: `docs/ringdetect-view.html`
-- Presentation page: `docs/index.html`
+- Interactive viewer: [docs/ringdetect-view.html](./docs/ringdetect-view.html)
+- Presentation page: [docs/index.html](./docs/index.html)
 
 ## Quick Start
 
